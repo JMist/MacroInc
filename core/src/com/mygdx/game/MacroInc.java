@@ -1,5 +1,5 @@
 package com.mygdx.game;
-
+//This is the main container for screens.
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
