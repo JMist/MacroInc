@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MacroInc extends Game {
 	SpriteBatch batch;
-	Texture img;
+	
 	BitmapFont font;
 	
 	@Override

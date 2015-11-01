@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Macro Inc.";
-		config.width = 800;
+		config.width = 1000;
 		config.height = 480;
 		new LwjglApplication(new MacroInc(), config);
 	}

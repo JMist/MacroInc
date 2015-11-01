@@ -19,9 +19,9 @@ public class TitleScreen implements Screen{
 	private Texture background;
 	
 	
-	public TitleScreen(final MacroInc gam)
+	public TitleScreen(final MacroInc g)
 	{
-		game = gam;
+		game = g;
 		
 		//This sets up the camera.
 		camera = new OrthographicCamera();
@@ -46,7 +46,8 @@ public class TitleScreen implements Screen{
         if(TimeUtils.nanoTime()/1000000000 % 2 == 0)
         	game.font.draw(game.batch, "Click to Start", 400, 240);
         game.batch.end();
-        
+        if(Gdx.input.isTouched())
+        	game.setScreen(new Cutscene(game));
 	}
 	public void pause()
 	 {
@@ -58,7 +59,7 @@ public class TitleScreen implements Screen{
 	 }
 	 public void resize(int x, int y)
 	 {
-		 camera.setToOrtho(false, x, y);
+		 
 	 }
 	 public void resume()
 	 {
@@ -66,7 +67,7 @@ public class TitleScreen implements Screen{
 	 }
 	 public void hide()
 	 {
-		 
+		
 	 }
 	 public void show(){
 		 
