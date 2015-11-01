@@ -10,28 +10,43 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.Scanner;
+
 public class Cutscene implements Screen{
 	final MacroInc game;
-	//final FileHandle script;
+	final FileHandle script;
 	OrthographicCamera camera;
 	//We'll add this sound when we have a dialog sound;
 	//private Sound dialog;
+	Scanner read;
+	//Size of the portrait animation
 	private static final int        FRAME_COLS = 4;         // #1
     private static final int        FRAME_ROWS = 1;         // #2
-
+    
     Animation                       faceAnimation;          // #3
     Texture                         faceSheet;              // #4
     TextureRegion[]                 faceFrames;             // #5        // #6
     TextureRegion                   currentFrame;           // #7
-
+    String 							currentFace;
     float stateTime;                                        // #8
 
-	//public Cutscene(MacroInc gam, FileHandle scrip)
-    public Cutscene(MacroInc g)
+	public Cutscene(MacroInc g, FileHandle scrip)
+    
 	{
 		this.game = g;
-		//this.script = scrip;
-		faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
+		this.script = scrip;
+		
+        read = new Scanner(script.readString());
+	}
+    
+    public void readLines()
+    {
+    	
+    }
+    
+    public void prepFace()
+    {
+    	faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
 		faceSheet = new Texture(Gdx.files.internal("sampleface.png"));
 		TextureRegion[][] tmp = TextureRegion.split(faceSheet, faceSheet.getWidth()/FRAME_COLS, faceSheet.getHeight()/FRAME_ROWS);
 		int index = 0;
@@ -42,7 +57,7 @@ public class Cutscene implements Screen{
         }
         faceAnimation = new Animation(.5f, faceFrames);
         stateTime = 0f;
-	}
+    }
 	public void render(float delta)
 	{	Gdx.gl.glClearColor(1, 1, 1, 1);
     	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

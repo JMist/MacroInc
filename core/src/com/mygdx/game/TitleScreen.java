@@ -47,7 +47,7 @@ public class TitleScreen implements Screen{
         	game.font.draw(game.batch, "Click to Start", 400, 240);
         game.batch.end();
         if(Gdx.input.isTouched())
-        	game.setScreen(new Cutscene(game));
+        	game.setScreen(new LevelSelectScreen(game));
 	}
 	public void pause()
 	 {

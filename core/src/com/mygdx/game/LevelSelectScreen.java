@@ -5,7 +5,12 @@ import com.badlogic.gdx.Screen;
 
 
 public class LevelSelectScreen implements Screen{
-
+	MacroInc game;
+	
+	public LevelSelectScreen(MacroInc g)
+	{
+		game = g;
+	}
 	public void render(float delta)
 	{
 		
