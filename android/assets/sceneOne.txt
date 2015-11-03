@@ -1,0 +1,39 @@
+/bg bg1.png
+/f sampleface2.png
+/t Prof Nero: 
+Hello, NAME. I've got some bad news. /e
+/t You failed my AP Econimics class. I am going to have to send this to all your prospective colleges.
+/e
+/f sampleface3.png
+/t Player: 
+What? NO! Is there any way I can fix this? 
+/e
+
+/f sampleface2.png
+/t Prof Nero: 
+	Perhaps… I could send you to train over the summer with an old professor of mine. He's known as the guru.
+/e
+/f sampleface3.png
+/t Player:
+	Anything to fix my grade. Where can I find him?
+/e
+/f sampleface2.png
+/t Prof Nero:
+	He lives in North Dakota.
+/e
+/f sampleface3.png
+/th Player:
+	(no one lives in North Dakota)
+/e
+/f sampleface2.png
+/t Prof Nero:
+	In a cave.
+/e
+/f sampleface3.png
+/th Player:
+	(?)
+/e
+/f sampleface2.png
+/t Prof Nero:
+	I’ll give you the address. Bring $500 cash and clothes for a week. Good luck. You might even make some money.
+/e

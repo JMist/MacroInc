@@ -46,8 +46,11 @@ public class TitleScreen implements Screen{
         if(TimeUtils.nanoTime()/1000000000 % 2 == 0)
         	game.font.draw(game.batch, "Click to Start", 400, 240);
         game.batch.end();
+        
+        //FOR TESTING CUTSCENE.JAVA
         if(Gdx.input.isTouched())
-        	game.setScreen(new LevelSelectScreen(game));
+        	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
+        	game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt")));
 	}
 	public void pause()
 	 {
