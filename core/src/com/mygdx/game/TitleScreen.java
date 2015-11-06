@@ -19,6 +19,7 @@ public class TitleScreen implements Screen{
 	private Texture background;
 	
 	
+	
 	public TitleScreen(final MacroInc g)
 	{
 		game = g;
@@ -28,7 +29,6 @@ public class TitleScreen implements Screen{
 		//To have this be the actual dimensions,
 		//you must go into DesktopLauncher.java and edit.
 		camera.setToOrtho(false, 1000, 480);
-		
 		background = new Texture(Gdx.files.internal("titlescreen.png"));
 	}
 	public void render(float delta)
@@ -40,7 +40,6 @@ public class TitleScreen implements Screen{
         //Sets up camera
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
-        game.font.setColor(1,0,1,1);
         game.batch.begin();
         game.batch.draw(background, 0, 0);
         if(TimeUtils.nanoTime()/1000000000 % 2 == 0)

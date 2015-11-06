@@ -14,11 +14,12 @@ public class MacroInc extends Game {
 	
 	BitmapFont font;
 	
+	final static float[] FONT_COLOR = {.3f, .3f, .3f};
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		
+		font.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], 1);
 		this.setScreen(new TitleScreen(this));
 	}
 
