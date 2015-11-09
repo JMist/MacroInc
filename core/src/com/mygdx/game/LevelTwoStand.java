@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,18 +32,21 @@ public class LevelTwoStand implements Screen{
     TextureRegion                   currentFrame;        
     private float stateTime;
     
+    private float					runningTime;
+    
     Texture							textContainer;
     String							displayText;
     String							currentText;
     boolean							isDialogRunning;
-    boolean							isDoneTalking;
+    boolean							isDoneTalking = true;
     
     float							dialogCompletedTime;
 	public LevelTwoStand(final MacroInc g)
 	{
 		game = g;
-		final int FRAME_COLS = 1;
-		final int FRAME_ROWS = 4;
+		final int FRAME_COLS = 4;
+		final int FRAME_ROWS = 1;
+		
 		faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
 		faceSheet = new Texture(Gdx.files.internal("sampleface.png"));
 		TextureRegion[][] tmp = TextureRegion.split(faceSheet, faceSheet.getWidth()/FRAME_COLS, faceSheet.getHeight()/FRAME_ROWS);
@@ -54,17 +58,21 @@ public class LevelTwoStand implements Screen{
         }
         faceAnimation = new Animation(FRAME_RATE, faceFrames);
         stateTime = 0f;
-        
+        runningTime = 0f;
 		//This sets up the camera.
 		camera = new OrthographicCamera();
 		//To have this be the actual dimensions,
 		//you must go into DesktopLauncher.java and edit.
 		camera.setToOrtho(false, 1000, 480);
+		
+		
+		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
 		background = new Texture(Gdx.files.internal("titlescreen.png"));
 	}
 	
 	public void prepText(float f)
-    {	if((int)(f/TEXT_DELAY)  > currentText.length())
+    {	System.out.print(f);
+		if((int)(f/TEXT_DELAY)  > currentText.length())
     {
     	displayText = currentText;
     	isDoneTalking = true;
@@ -77,9 +85,16 @@ public class LevelTwoStand implements Screen{
 	public void render(float delta)
 	{	
 		//Clears screen to black
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        runningTime += Gdx.graphics.getDeltaTime();
+        
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+               	
+        		addDialog("Hey Bill, get the Will");
+    
+        	
         //Sets up camera
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
@@ -97,9 +112,9 @@ public class LevelTwoStand implements Screen{
         	{
     			currentFrame = faceAnimation.getKeyFrame(0, true);
         	}	
-        game.batch.draw(textContainer, 25, 25);
-		game.font.draw(game.batch, displayText, 220, 125);
-        game.batch.draw(currentFrame, 50, 50);
+        game.batch.draw(textContainer, 25, 480 - 25 - textContainer.getHeight());
+		game.font.draw(game.batch, displayText, 220, 480 - 125);
+        game.batch.draw(currentFrame, 50, 480 - 50 - currentFrame.getRegionHeight());
         if(stateTime - dialogCompletedTime > POST_DIALOG_DELAY)
         {
         	isDialogRunning = false;
@@ -114,6 +129,7 @@ public class LevelTwoStand implements Screen{
 	{
 		stateTime = 0f;
 		currentText = text;
+		isDoneTalking = false;
 		isDialogRunning = true;
 	}
 	public void pause()

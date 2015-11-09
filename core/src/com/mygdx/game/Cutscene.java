@@ -76,8 +76,8 @@ public class Cutscene implements Screen{
 		//To be implemented later
 	}
     public void read()
-    {	//Check for end to cutscene
-    	
+    {	
+    	//Check for end to cutscene  	
     	if(read.hasNext("/terminate"))
     	{
     		System.out.println("Cutscene terminated");
