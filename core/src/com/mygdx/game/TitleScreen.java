@@ -49,7 +49,7 @@ public class TitleScreen implements Screen{
         //FOR TESTING CUTSCENE.JAVA
         if(Gdx.input.isTouched())
         	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
-        	game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt")));
+        	game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), this));
 	}
 	public void pause()
 	 {
