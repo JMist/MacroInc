@@ -38,3 +38,4 @@ What? NO! Is there any way I can fix this?
 /t Prof Nero:
 	I’ll give you the address. Bring $500 cash and clothes for a week. Good luck. You might even make some money.
 /e
+/terminate

@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 public class Cutscene implements Screen{
 	final MacroInc game;
 	final FileHandle script;
+	//The Screen which the Cutscene switches into at the end.
+	final Screen toFollow;
+	
 	OrthographicCamera camera;
 	//We'll add this sound when we have a dialog sound;
 	//private Sound dialog;
@@ -52,11 +55,12 @@ public class Cutscene implements Screen{
     boolean							isDoneTalking = false;
     
     
-	public Cutscene(MacroInc g, FileHandle scrip)
+	public Cutscene(MacroInc g, FileHandle s, Screen toFollowScreen)
     
 	{
 		this.game = g;
-		this.script = scrip;
+		this.script = s;
+		this.toFollow = toFollowScreen;
 		
         read = new Scanner(script.readString());
         
@@ -67,8 +71,19 @@ public class Cutscene implements Screen{
         System.out.println(script.readString());
 	}
     
+	public void fadeOut()
+	{
+		//To be implemented later
+	}
     public void read()
-    {	
+    {	//Check for end to cutscene
+    	
+    	if(read.hasNext("/terminate"))
+    	{
+    		System.out.println("Cutscene terminated");
+    		fadeOut();
+    		game.setScreen(toFollow);
+    	}
     	//Check for background update
     	if(read.hasNext(Pattern.compile("/bg")))
     	{	System.out.println(read.next() + " changed");
@@ -77,6 +92,9 @@ public class Cutscene implements Screen{
     		setBackground(read.next());
     		//read.skip("}");
     	}
+    	
+    	//Check for animation update: TO COME
+    	
     	
     	//Check for face update
     	if(read.hasNext(Pattern.compile("/f")))
