@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 
 
-public class LevelTwoStand implements Screen{
+public class LevelScreenDialogTemplate implements Screen{
 
 	final MacroInc game;
 	
@@ -41,27 +41,12 @@ public class LevelTwoStand implements Screen{
     boolean							isDoneTalking = true;
     
     float							dialogCompletedTime;
-    
-    //Level specific values
-    
-    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost, hour (9-13 free market, 14, 15 are command), profitTotal}
-    //If this is changed, be sure to change all of the uses of "recipe" in the code.
-    final int[] recipe;
-    
-	public LevelTwoStand(final MacroInc g, int[] r)
-	{	
-		
+	public LevelScreenDialogTemplate(final MacroInc g)
+	{
 		game = g;
-		//Attain the recipe
-		recipe = new int[6];
-		if(r.length == 6)
-			for(int i = 0; i < 6; i++)
-				recipe[i] = r[i];
-		
 		final int FRAME_COLS = 4;
 		final int FRAME_ROWS = 1;
 		
-		//Prepare the guru's face for dialog boxes
 		faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
 		faceSheet = new Texture(Gdx.files.internal("sampleface.png"));
 		TextureRegion[][] tmp = TextureRegion.split(faceSheet, faceSheet.getWidth()/FRAME_COLS, faceSheet.getHeight()/FRAME_ROWS);
@@ -74,7 +59,6 @@ public class LevelTwoStand implements Screen{
         faceAnimation = new Animation(FRAME_RATE, faceFrames);
         stateTime = 0f;
         runningTime = 0f;
-		
 		//This sets up the camera.
 		camera = new OrthographicCamera();
 		//To have this be the actual dimensions,
@@ -86,7 +70,15 @@ public class LevelTwoStand implements Screen{
 		background = new Texture(Gdx.files.internal("titlescreen.png"));
 	}
 	
-	//DIALOG AND TEXT
+	//TEXT CREATION AND DIALOG
+	public void addDialog(String text)
+	{
+		stateTime = 0f;
+		currentText = text;
+		isDoneTalking = false;
+		isDialogRunning = true;
+	}
+
 	public void prepText(float f)
     {	
 		if((int)(f/TEXT_DELAY)  > currentText.length())
@@ -98,43 +90,9 @@ public class LevelTwoStand implements Screen{
     else
     	displayText = currentText.substring(0, (int)(f/TEXT_DELAY) );
     }
-	public void addDialog(String text)
-	{
-		stateTime = 0f;
-		currentText = text;
-		isDoneTalking = false;
-		isDialogRunning = true;
-	}
 	
-	//CALCULATIONS
-	public double determineCustomerSatisfaction()
-	{	
-		//Tartness determines 55%, Sweetness determines 30% Temperature determines 15% 
-		
-		//Tartness should approach 10.66 lemons in 8 servings
-		double tartFactor = .55/(1 + 2*Math.pow(2, 10.66 - recipe[0]));
-		//Sweetness should be 2 cups in 8 servings
-		double sweetFactor = .3/(1 + .2*Math.pow(2, 8 - recipe[1]));
-		//There should be 3 cubes, plus an extra cube per hour past 9
-		double tempFactor = .15/(1 + Math.pow(2, 6 + recipe[2] - recipe[4]));
-		
-		return tartFactor + sweetFactor + tempFactor;
-	}
 	
-	public double determineCustomerAttraction()
-	{
-		if(recipe[4] == 9)
-			return .8;
-		else
-		{
-			double x = determineCustomerSatisfaction();
-			double y = .3 + .14*(recipe[4] - 9);
-			return x/(x+y);
-		}
-	}
-
-	//
-	//RENDERING
+	//RENDER
 	public void render(float delta)
 	{	
 		//Clears screen to black
@@ -175,7 +133,9 @@ public class LevelTwoStand implements Screen{
         
 	}
 	
-	public void pause()
+	
+	//SCREEN INHERITED METHODS
+		public void pause()
 	 {
 		
 	 }
