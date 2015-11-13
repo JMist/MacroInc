@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -8,7 +10,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 
@@ -42,6 +46,13 @@ public class LevelTwoStand implements Screen{
     
     float							dialogCompletedTime;
     
+    //THE PEOPLE!
+    private Array<Peep>							peeps;
+    private int 								peepsSpawned = 0;
+    private long 								lastPeepTime;
+    private int									peepsServed = 0;
+    
+    private boolean								spawning = false;
     //Level specific values
     
     //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost, hour (9-13 free market, 14, 15 are command), profitTotal}
@@ -81,7 +92,9 @@ public class LevelTwoStand implements Screen{
 		//you must go into DesktopLauncher.java and edit.
 		camera.setToOrtho(false, 1000, 480);
 		
-		
+		//FOR TESTING
+		spawning = true;
+		peeps = new Array<Peep>();
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
 		background = new Texture(Gdx.files.internal("titlescreen.png"));
 	}
@@ -127,8 +140,8 @@ public class LevelTwoStand implements Screen{
 			return .8;
 		else
 		{
-			double x = determineCustomerSatisfaction();
-			double y = .3 + .14*(recipe[4] - 9);
+			double x = (1 + recipe[4]*.1)*determineCustomerSatisfaction();
+			double y = recipe[3]*(.3 + .14*(recipe[4] - 9));
 			return x/(x+y);
 		}
 	}
@@ -151,7 +164,15 @@ public class LevelTwoStand implements Screen{
         
         //BATCH BEGINS
         game.batch.begin();
+        //DRAW BACKGROUND
         game.batch.draw(background, 0, 0);
+        //RENDER PEEPS
+        
+        for(Peep person: peeps) {
+		      game.batch.draw(person.getFrame(), person.x, person.y);
+		   }
+        
+        //DRAW DIALOG
         if(isDialogRunning)
         {
         	stateTime += Gdx.graphics.getDeltaTime();
@@ -170,11 +191,70 @@ public class LevelTwoStand implements Screen{
         	isDialogRunning = false;
         }
         }
+        
         game.batch.end();
         //BATCH ENDS
         
+        
+		//SPAWN NECESSARY PEEPS
+        if(TimeUtils.nanoTime() - lastPeepTime > 4000000000d && spawning) spawnPeep();
+        //ELIMINATE PEEPS THAT ARE OFFSCREEN
+        Iterator<Peep> iter = peeps.iterator();
+        while(iter.hasNext())
+        {	Peep person = iter.next();
+        	if (Math.abs(person.x) > 1000 || Math.abs(person.y) > 480)
+        		iter.remove();
+        }
 	}
 	
+	private void spawnPeep() {
+		if(peepsSpawned >= 60)
+		{
+			spawning = false;
+			return;
+		}
+		int outfit = MathUtils.random(1,10);
+		int direction = 0;
+		if(recipe[4] == 9)
+		{
+			//If you're not gonna get what you deserve:
+			if(60 - peepsSpawned <= 60*determineCustomerAttraction() - peepsServed)
+				direction = 1;
+			//If you're getting too much:
+			else if(peepsServed > 60*determineCustomerAttraction())
+				direction = 0;
+			else
+			{
+				if(Math.random() > determineCustomerAttraction())
+					direction = 0;
+				else
+					direction = 1;
+			}
+		}
+		else
+		{
+			//If you're not gonna get what you deserve:
+			if(60 - peepsSpawned <= 60*determineCustomerAttraction() - peepsServed)
+				direction = 1;
+			//If you're getting too much:
+			else if(peepsServed > 60*determineCustomerAttraction())
+				direction = -1;
+			else
+			{
+				if(Math.random() > determineCustomerAttraction())
+					direction = -1;
+				else
+					direction = 1;
+			}
+		}
+		if(direction ==1)
+			peepsServed++;
+		Peep guy = new Peep(direction, outfit);
+		peeps.add(guy);
+		lastPeepTime = TimeUtils.nanoTime();
+		peepsSpawned++;
+	}
+
 	public void pause()
 	 {
 		

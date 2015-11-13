@@ -14,15 +14,17 @@ final Texture 			outfit;
 //Time at birth of the Peep
 final long				birthTime;
 //Time it takes to walk through the a step, in seconds
-static final float 		WALK_SPEED = 1f;
-static final float		STEP_LENGTH = 5;
+static final float 		WALK_SPEED = .4f;
+static final float		STEP_LENGTH = 80;
 //Locations of the bottom left corner of the Peep when he buys the lemonade.
-static final int		PLAYER_X = 50;
+static final int		PLAYER_X = 200;
 static final int		PLAYER_Y = 200;
 
 static final int		COMPETITOR_X = 400;
 static final int		COMPETITOR_Y = 200;
 
+static final int		PEEP_START_X = 100;
+static final int		PEEP_START_Y = 40;
 //bottom left x and y coordinates, in pixels
 public int x;
 public int y;
@@ -42,8 +44,13 @@ TextureRegion[]         downFrames;
 TextureRegion           currentFrame;
 public Peep(int d, int o)
 {
+	x = PEEP_START_X;
+	y = PEEP_START_Y;
+	
 	direction = d;
-	outfit = new Texture(Gdx.files.internal("peep"+o+".png"));
+	//TEST CODE
+	outfit = new Texture(Gdx.files.internal("samplepeep.png"));
+	/*outfit = new Texture(Gdx.files.internal("peep"+o+".png"));*/
 	birthTime = TimeUtils.nanoTime();
 	
 	TextureRegion[][] tmp = TextureRegion.split(outfit, outfit.getWidth()/STEP_FRAMES, outfit.getHeight()/3);
@@ -51,11 +58,11 @@ public Peep(int d, int o)
 	rightFrames = new TextureRegion[STEP_FRAMES];
 	upFrames = new TextureRegion[STEP_FRAMES];
 	downFrames = new TextureRegion[STEP_FRAMES];
-	for(int i = 0; i < STEP_FRAMES; i++)
+	for(int i = 0; i < 4; i++)
 	{
-		rightFrames[i] = tmp[i][0];
-		upFrames[i] = tmp[i][1];
-		downFrames[i] = tmp[i][2];
+		rightFrames[i] = tmp[0][i];
+		upFrames[i] = tmp[1][i];
+		downFrames[i] = tmp[2][i];
 	}
 	
 	rightAnimation = new Animation(WALK_SPEED/STEP_FRAMES, rightFrames);
@@ -67,19 +74,89 @@ public Peep(int d, int o)
 public TextureRegion getFrame()
 {
 	long timeElapsed = TimeUtils.nanoTime() - birthTime;
+	//Steps in this Peep's lifetime
+	float stepCount = (float) ((timeElapsed/1000000000.0)/WALK_SPEED);
 	
-	
-	return null;
+	if(direction == 1)
+	{
+		float stopRight = (PLAYER_X - PEEP_START_X)/STEP_LENGTH;
+		float stopUp = stopRight + (PLAYER_Y - PEEP_START_Y)/STEP_LENGTH;
+		float stopPause = stopUp + 2f;
+		float stopDown = stopPause + (PLAYER_Y - PEEP_START_Y)/STEP_LENGTH;
+		//Walking right, towards selected stand.
+	if(stepCount < stopRight)
+	{		
+		this.x = (int) (PEEP_START_X + stepCount*STEP_LENGTH);
+		return rightAnimation.getKeyFrame(stepCount, true);
+	}
+	else if(stepCount < stopUp)
+	{
+		this.x = PLAYER_X;
+		this.y = (int) (PEEP_START_Y + (stepCount - stopRight)*STEP_LENGTH);
+		return upAnimation.getKeyFrame(stepCount, true);
+	}
+	else if(stepCount < stopPause)
+	{
+		this.x = PLAYER_X;
+		this.y = PLAYER_Y;
+		return upAnimation.getKeyFrame(0);
+	}
+	else if(stepCount < stopDown)
+	{
+		this.x = PLAYER_X;
+		this.y = (int) (PLAYER_Y - (stepCount - stopPause) *STEP_LENGTH);
+		return downAnimation.getKeyFrame(stepCount, true);
+	}
+	else
+	{
+		this.y = PEEP_START_Y;
+		this.x = (int) (PLAYER_X + (stepCount - stopDown)*STEP_LENGTH);
+		return rightAnimation.getKeyFrame(stepCount, true);
+	}
+	}
+	if(direction == -1)
+	{
+		float stopRight = (COMPETITOR_X - PEEP_START_X)/STEP_LENGTH;
+		float stopUp = stopRight + (COMPETITOR_Y - PEEP_START_Y)/STEP_LENGTH;
+		float stopPause = stopUp + 2f;
+		float stopDown = stopPause + (COMPETITOR_Y - PEEP_START_Y)/STEP_LENGTH;
+		//Walking right, towards selected stand.
+	if(stepCount < stopRight)
+	{		
+		this.x = (int) (PEEP_START_X + stepCount*STEP_LENGTH);
+		return rightAnimation.getKeyFrame(stepCount, true);
+	}
+	else if(stepCount < stopUp)
+	{
+		this.x = COMPETITOR_X;
+		this.y = (int) (PEEP_START_Y + (stepCount - stopRight)*STEP_LENGTH);
+		return upAnimation.getKeyFrame(stepCount, true);
+	}
+	else if(stepCount < stopPause)
+	{
+		this.x = COMPETITOR_X;
+		this.y = COMPETITOR_Y;
+		return upAnimation.getKeyFrame(0);
+	}
+	else if(stepCount < stopDown)
+	{
+		this.x = COMPETITOR_X;
+		this.y = (int) (COMPETITOR_Y - (stepCount - stopPause)*STEP_LENGTH);
+		return downAnimation.getKeyFrame(stepCount, true);
+	}
+	else
+	{
+		this.y = PEEP_START_Y;
+		this.x = (int) (COMPETITOR_X + (stepCount - stopDown)*STEP_LENGTH);
+		return rightAnimation.getKeyFrame(stepCount, true);
+	}
+	}
+	else
+	{
+		this.x = (int) (PEEP_START_X + stepCount*STEP_LENGTH);
+		return rightAnimation.getKeyFrame(stepCount, true);
+	}
 }
 
-public int getX()
-{
-	return 0;
-}
-
-public int getY()
-{
-	return 0;
-}
 	
 }
