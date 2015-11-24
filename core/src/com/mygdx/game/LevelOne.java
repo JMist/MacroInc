@@ -19,12 +19,13 @@ public class LevelOne {
 	Texture pizzaBackground;
 	Sound pizzaCollect;
 	int pizzaScore;
-	int pizzaMeter;
+	float pizzaMeter;
 	float pizzaSpeed;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	Rectangle car;
 	private Array<Rectangle> pizzas;
+	int pizzaDisplay;
 	/*
 	 * Creating variables for the car, pizza collection, the background, and
 	 * controlling how the pizza's hitbox is accounted for. When I tried
@@ -102,7 +103,9 @@ public class LevelOne {
 		while (iter.hasNext()) {
 			Rectangle pizza = iter.next();
 			pizza.x -= 3000 * Gdx.graphics.getDeltaTime();
-			// Pizza moving across the screen
+			pizzaMeter-=Gdx.graphics.getDeltaTime();
+			pizzaDisplay=MathUtils.ceilPositive(pizzaMeter);
+			// Pizza moving across the screen and pizzaMeter going down probably
 
 			if (pizza.x + 50 < 0)
 				iter.remove();
