@@ -120,9 +120,9 @@ public class LevelScreenDialogTemplate implements Screen{
         	{
     			currentFrame = faceAnimation.getKeyFrame(0, true);
         	}	
-        game.batch.draw(textContainer, 25, 480 - 25 - textContainer.getHeight());
-		game.font.draw(game.batch, displayText, 220, 480 - 125);
-        game.batch.draw(currentFrame, 50, 480 - 50 - currentFrame.getRegionHeight());
+        	game.batch.draw(textContainer, 0, 0);
+    		game.font.draw(game.batch, displayText, 195, 100);
+            game.batch.draw(currentFrame, 40, 25);
         if(stateTime - dialogCompletedTime > POST_DIALOG_DELAY)
         {
         	isDialogRunning = false;
