@@ -46,6 +46,7 @@ public class TitleScreen implements Screen{
         if(TimeUtils.nanoTime()/1000000000 % 2 == 0)
         	game.font.draw(game.batch, "Click to Start", 400, 240);
         game.batch.end();
+        //This animation code is pretty great.
         
         //FOR TESTING CUTSCENE.JAVA
         if(Gdx.input.isTouched())

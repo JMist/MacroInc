@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import java.util.Iterator;
+
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
@@ -104,9 +106,11 @@ public class LevelOne {
 			Rectangle pizza = iter.next();
 			pizza.x -= 3000 * Gdx.graphics.getDeltaTime();
 			pizzaMeter-=Gdx.graphics.getDeltaTime();
-			pizzaDisplay=MathUtils.ceilPositive(pizzaMeter);
+			pizzaDisplay=MathUtils.ceil(pizzaMeter);
 			// Pizza moving across the screen and pizzaMeter going down probably
-
+			if (pizzaMeter<=0){
+				//End game. No idea what the code is, does the previous cutscene call the game object or something?
+			}
 			if (pizza.x + 50 < 0)
 				iter.remove();
 			if (pizza.overlaps(car)) {
@@ -141,7 +145,7 @@ public class LevelOne {
 		pizza.y = (MathUtils.random(1, 3) * 120);
 		// Spawns in a random y location in a legitimate lane area.
 
-		pizza.width = 50;
+		pizza.width = 120;
 		pizza.height = 120;
 		// Pizza hitbox takes up the entire lane as well.
 
