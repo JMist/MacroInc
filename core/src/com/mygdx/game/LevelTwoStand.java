@@ -166,8 +166,9 @@ public class LevelTwoStand implements Screen{
         game.batch.begin();
         //DRAW BACKGROUND
         game.batch.draw(background, 0, 0);
+        //DRAW STANDS
+        //?
         //RENDER PEEPS
-        
         for(Peep person: peeps) {
 		      game.batch.draw(person.getFrame(), person.x, person.y);
 		   }
@@ -198,7 +199,7 @@ public class LevelTwoStand implements Screen{
         
         
 		//SPAWN NECESSARY PEEPS
-        if(TimeUtils.nanoTime() - lastPeepTime > 4000000000d && spawning) spawnPeep();
+        if(TimeUtils.nanoTime() - lastPeepTime > 1000000000d && spawning) spawnPeep();
         //ELIMINATE PEEPS THAT ARE OFFSCREEN
         Iterator<Peep> iter = peeps.iterator();
         while(iter.hasNext())
@@ -207,6 +208,7 @@ public class LevelTwoStand implements Screen{
         		iter.remove();
         }
 	}
+	
 	
 	private void spawnPeep() {
 		if(peepsSpawned >= 60)
@@ -218,7 +220,7 @@ public class LevelTwoStand implements Screen{
 		int direction = 0;
 		if(recipe[4] == 9)
 		{
-			//If you're not gonna get what you deserve:
+			//If you're not going to get what you deserve:
 			if(60 - peepsSpawned <= 60*determineCustomerAttraction() - peepsServed)
 				direction = 1;
 			//If you're getting too much:

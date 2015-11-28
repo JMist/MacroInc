@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class LevelTwoRecipeScreen implements Screen{
 
@@ -38,13 +41,46 @@ public class LevelTwoRecipeScreen implements Screen{
     
     float							dialogCompletedTime;
     
+    private Vector2 				touchPos;
+    
     //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost, hour (9-13 free market, 14, 15 are command), profitTotal}
     //If this is changed, be sure to change all of the uses of "recipe" in the code.
     final int[] recipe;
+    
+    //BUTTONS WILL BE MANAGED BY Button.java class
+    Button[]						buttons;
+    private static final float						BUTTON_HEIGHT = 50;
+    private static final float						BUTTON_WIDTH = 50;
+    private static final float						BUTTON_X_SPACE = 125;
+    private static final float						BUTTON_Y_SPACE = 100;
 	public LevelTwoRecipeScreen(final MacroInc g, int[] r)
 	{
 		game = g;
-		
+		//ADD THE BUTTONS
+		buttons = new Button[8];
+		for(int i = 0; i < buttons.length; i++)
+		{	buttons[i] = new Button(game);
+			buttons[i].setHeight(BUTTON_HEIGHT);
+			buttons[i].setWidth(BUTTON_WIDTH);
+			//Increment Buttons
+			if(i % 2 == 0)
+			{
+				buttons[i].setPress(new Texture(Gdx.files.internal("upbuttonpressed.png")));
+				buttons[i].setNotPress(new Texture(Gdx.files.internal("upbutton.png")));
+				buttons[i].setX(150 + i/2*BUTTON_X_SPACE);
+				buttons[i].setY(500 - 100 - BUTTON_HEIGHT);
+			}
+			//Decrement Buttons
+			if(i % 2 == 1)
+			{
+				buttons[i].setPress(new Texture(Gdx.files.internal("downbuttonpressed.png")));
+				buttons[i].setNotPress(new Texture(Gdx.files.internal("downbutton.png")));
+				buttons[i].setX(150 + i/2*BUTTON_X_SPACE);
+				buttons[i].setY(500 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE);
+			}
+				
+		}
+		Button submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("upbuttonpressed.png")), new Texture(Gdx.files.internal("upbuttonpressed.png")));
 		//PREP GURU FACE
 		final int FRAME_COLS = 4;
 		final int FRAME_ROWS = 1;
@@ -113,7 +149,15 @@ public class LevelTwoRecipeScreen implements Screen{
         
         //BATCH BEGINS
         game.batch.begin();
+        //DRAW BACKGROUND
         game.batch.draw(background, 0, 0);
+        //DRAW BUTTONS,ETC
+        for(Button e: buttons)
+        {
+        	e.draw();
+        }
+        
+        //DRAW DIALOG
         if(isDialogRunning)
         {
         	stateTime += Gdx.graphics.getDeltaTime();
@@ -135,11 +179,23 @@ public class LevelTwoRecipeScreen implements Screen{
         game.batch.end();
         //BATCH ENDS
         
-        //IF RECIPE IS READY
+        //CLICK MANAGAMENT
+        if(Gdx.input.justTouched())
+        {
+        	touchPos = new Vector2();
+        	touchPos.set(Gdx.input.getX(), Gdx.input.getY());
+        	
+        	//IF RECIPE IS READY
+        	if(touchPos.x > 800 && touchPos.x < 900 && touchPos.y > 50 && touchPos.y < 100)
+        	{//Move on? setScreen(new Cutscene...
+        		
+        		return;
+        	}
+        }
+        
         
         
 	}
-	
 	
 	//SCREEN INHERITED METHODS
 		public void pause()
