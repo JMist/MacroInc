@@ -55,7 +55,7 @@ public class LevelTwoStand implements Screen{
     private boolean								spawning = false;
     //Level specific values
     
-    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost, hour (9-13 free market, 14, 15 are command), profitTotal}
+    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 cent increments), hour (9-13 free market, 14, 15 are command), profitTotal}
     //If this is changed, be sure to change all of the uses of "recipe" in the code.
     final int[] recipe;
     
@@ -140,8 +140,8 @@ public class LevelTwoStand implements Screen{
 			return .8;
 		else
 		{
-			double x = (1 + recipe[4]*.1)*determineCustomerSatisfaction();
-			double y = recipe[3]*(.3 + .14*(recipe[4] - 9));
+			double x = Math.pow(2, (1 + recipe[4]*.1))*determineCustomerSatisfaction();
+			double y = Math.pow(2, recipe[3]*.10)*(.3 + .14*(recipe[4] - 9));
 			return x/(x+y);
 		}
 	}
@@ -193,10 +193,19 @@ public class LevelTwoStand implements Screen{
         }
         }
         
-        game.batch.end();
         
+        //DRAW ACHIEVEMENT
+        if(recipe[0]==0 && recipe[1] == 0 && recipe[3] > 0)
+        	{Texture t = new Texture(Gdx.files.internal("waterachievement.png"));
+        	if(runningTime < 1)
+        		game.batch.draw(t, 0, 480 - runningTime*100);
+        	else if( runningTime < 4)
+        		game.batch.draw(t, 0, 380);
+        	else if( runningTime < 5)
+        		game.batch.draw(t, 0, 380 + (runningTime-4)*100);
+        	}
         //BATCH ENDS
-        
+        game.batch.end();
         
 		//SPAWN NECESSARY PEEPS
         if(TimeUtils.nanoTime() - lastPeepTime > 1000000000d && spawning) spawnPeep();

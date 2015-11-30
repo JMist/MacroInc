@@ -1,16 +1,22 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 
 
 
 public class LevelSelectScreen implements Screen{
 	MacroInc game;
+	int levelsComplete;
 	
-	public LevelSelectScreen(MacroInc g)
+	//FileHandle tells the screen which levels are available.
+	public LevelSelectScreen(MacroInc g, FileHandle f)
 	{
 		game = g;
+		
 	}
+	
+	
 	public void render(float delta)
 	{
 		

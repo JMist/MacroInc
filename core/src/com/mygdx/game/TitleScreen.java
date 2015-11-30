@@ -49,8 +49,9 @@ public class TitleScreen implements Screen{
         //FOR TESTING CUTSCENE.JAVA
         if(Gdx.input.isTouched())
         	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
-        	game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
-        	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoStand(game, new int[] {0, 0, 0, 1, 9, 0})));
+        	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
+        	game.setScreen(new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 15, 0}));
+        //game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoStand(game, new int[] {0, 0, 0, 1, 9, 0})));
 	}
 	public void pause()
 	 {

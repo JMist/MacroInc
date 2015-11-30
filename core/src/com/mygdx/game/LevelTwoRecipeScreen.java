@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -43,7 +44,7 @@ public class LevelTwoRecipeScreen implements Screen{
     
     private Vector2 				touchPos;
     
-    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost, hour (9-13 free market, 14, 15 are command), profitTotal}
+    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 increments), hour (9-13 free market, 14, 15 are command), profitTotal}
     //If this is changed, be sure to change all of the uses of "recipe" in the code.
     final int[] recipe;
     
@@ -53,8 +54,14 @@ public class LevelTwoRecipeScreen implements Screen{
     private static final float						BUTTON_WIDTH = 50;
     private static final float						BUTTON_X_SPACE = 125;
     private static final float						BUTTON_Y_SPACE = 100;
+    
+    private Button 					submitButton;
+    //ERROR SOUND
+    private Sound 					error;
 	public LevelTwoRecipeScreen(final MacroInc g, int[] r)
 	{
+		//INSTANTIALIZE error sound
+		error = Gdx.audio.newSound(Gdx.files.internal("error.wav"));
 		game = g;
 		//ADD THE BUTTONS
 		buttons = new Button[8];
@@ -68,7 +75,7 @@ public class LevelTwoRecipeScreen implements Screen{
 				buttons[i].setPress(new Texture(Gdx.files.internal("upbuttonpressed.png")));
 				buttons[i].setNotPress(new Texture(Gdx.files.internal("upbutton.png")));
 				buttons[i].setX(150 + i/2*BUTTON_X_SPACE);
-				buttons[i].setY(500 - 100 - BUTTON_HEIGHT);
+				buttons[i].setY(480 - 100 - BUTTON_HEIGHT);
 			}
 			//Decrement Buttons
 			if(i % 2 == 1)
@@ -76,11 +83,16 @@ public class LevelTwoRecipeScreen implements Screen{
 				buttons[i].setPress(new Texture(Gdx.files.internal("downbuttonpressed.png")));
 				buttons[i].setNotPress(new Texture(Gdx.files.internal("downbutton.png")));
 				buttons[i].setX(150 + i/2*BUTTON_X_SPACE);
-				buttons[i].setY(500 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE);
+				buttons[i].setY(480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE);
 			}
 				
 		}
-		Button submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("upbuttonpressed.png")), new Texture(Gdx.files.internal("upbuttonpressed.png")));
+		//DONE WITH RECIPE BUTTON
+		submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("waterachievement.png")), new Texture(Gdx.files.internal("waterachievement.png")));
+		submitButton.setX(800);
+		submitButton.setY(100);
+		submitButton.setHeight(100);
+		submitButton.setWidth(200);
 		//PREP GURU FACE
 		final int FRAME_COLS = 4;
 		final int FRAME_ROWS = 1;
@@ -107,7 +119,17 @@ public class LevelTwoRecipeScreen implements Screen{
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
 		background = new Texture(Gdx.files.internal("titlescreen.png"));
 		
+		//DETERMINE RECIPE:
+		if(r[4] < 14)
 		recipe = r;
+		else if(r[4] == 14)
+		{int[] newRecipe = {9, 11,3,10, 14, r[5]} ;
+		recipe = newRecipe;
+		}
+		else
+			{int[] newRecipe = {15, 2, 18, 5, 15, r[5]} ;
+		recipe = newRecipe;}
+		
 	}
 	
 	//TEXT CREATION AND DIALOG
@@ -141,23 +163,46 @@ public class LevelTwoRecipeScreen implements Screen{
         
         runningTime += Gdx.graphics.getDeltaTime();
         
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))              	
-        		addDialog("Hey Bill, get the Will");     	
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))  {            	
+        		if(recipe[4] < 14)addDialog("Edit your recipe here.");
+        		else
+			addDialog("Welcome to the command system, my comrade.");
+	}
+        
         //Sets up camera
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         
         //BATCH BEGINS
         game.batch.begin();
-        //DRAW BACKGROUND
+        
+        //DRAW BACKGROUND        
         game.batch.draw(background, 0, 0);
-        //DRAW BUTTONS,ETC
+        
+        //DRAW BUTTONS, RECIPE VALUES, PROFIT PER GLASS
+        double cost = recipe[0]*.25/8 + recipe[1]*.1/8 + recipe[2]*.01 ;
+        
+        //Profit in cents
+        int profitPerGlass = 10*recipe[3] - (int)(100*cost);
+                
         for(Button e: buttons)
         {
         	e.draw();
         }
+        submitButton.draw();
         
-        //DRAW DIALOG
+        for(int i = 0; i < 3; i++)
+        game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+        game.font.draw(game.batch, ""+ recipe[3]/10 + "." + recipe[3]%10, 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+        if(profitPerGlass >0)
+        game.font.draw(game.batch, "Profit per glass: $" + profitPerGlass/100 + "." + profitPerGlass%100, 800, 240);
+        else
+        {
+        	game.font.setColor(1f, 0, 0, 1);
+        	game.font.draw(game.batch, "Profit per glass: - $" + (-profitPerGlass)/100 + "." + (-profitPerGlass%100), 800, 240);
+        	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+        }
+        	//DRAW DIALOG
         if(isDialogRunning)
         {
         	stateTime += Gdx.graphics.getDeltaTime();
@@ -179,20 +224,104 @@ public class LevelTwoRecipeScreen implements Screen{
         game.batch.end();
         //BATCH ENDS
         
-        //CLICK MANAGAMENT
+        //CLICK MANAGAMENT - AM ONLY
+        if(recipe[4] < 14)	
         if(Gdx.input.justTouched())
         {
         	touchPos = new Vector2();
         	touchPos.set(Gdx.input.getX(), Gdx.input.getY());
+        	touchPos = game.screenTransform(touchPos);
+        	int buttonTouched = -1;
+        	for(int i = 0; i < buttons.length; i++)
+        		if(buttons[i].getLocation().contains(touchPos))
+        			buttonTouched = i;
+        	//cost per glass for production calculated above is "cost"
+        	
+        	switch(buttonTouched)
+        	{
+        	case 0:
+        		if(recipe[0] < 20 && recipe[3]*.10 - cost >= .25/8)
+        		recipe[0]++;
+        		else
+        			error.play();
+        		break;
+        	case 1:
+        		if(recipe[0] > 0)
+        			recipe[0]--;
+        		else
+        			error.play();
+        		break;
+        	case 2:
+        		if(recipe[1] < 20 && recipe[3]*.10 - cost >= .1/8)
+        		recipe[1]++;
+        		else
+        			error.play();
+        		break;
+        	case 3:
+        		if(recipe[1] > 0)
+        			recipe[1]--;
+        		else
+        			error.play();
+        		break;
+        	case 4:
+        		if(recipe[2] < 20 && recipe[3]*.10 - cost >= .01)
+        		recipe[2]++;
+        		else
+        			error.play();
+        		break;
+        	case 5:
+        		if(recipe[2] > 0)
+        			recipe[2]--;
+        		else
+        			error.play();
+        		break;
+        	case 6:
+        		if(recipe[3]*.1 < 10)
+        		recipe[3]++;
+        		else
+        			error.play();
+        		break;
+        	case 7:
+        		if(recipe[3]*.1 > cost)
+        			recipe[3]--;
+        		else
+        			error.play();
+        		break;
+        		default:
+        			break;
+        	}
         	
         	//IF RECIPE IS READY
-        	if(touchPos.x > 800 && touchPos.x < 900 && touchPos.y > 50 && touchPos.y < 100)
+        	if(submitButton.getLocation().contains(touchPos))
         	{//Move on? setScreen(new Cutscene...
         		
         		return;
         	}
         }
         
+        //CLICK MANAGEMENT COMMAND SYSTEM
+        if(Gdx.input.justTouched() && recipe[4] >= 14)
+        {
+        	
+        	
+        	touchPos = new Vector2();
+        	touchPos.set(Gdx.input.getX(), Gdx.input.getY());
+        	touchPos = game.screenTransform(touchPos);
+        	int buttonTouched = -1;
+        	for(int i = 0; i < buttons.length; i++)
+        		if(buttons[i].getLocation().contains(touchPos))
+        			buttonTouched = i;
+        	if(buttonTouched != -1)
+        		{
+        		error.play();
+        	     addDialog("This recipe, it is good. Trust the central board.");
+        		}
+        	if(submitButton.getLocation().contains(touchPos))
+        	{//Move on? setScreen(new Cutscene...
+        		
+        		return;
+        	}
+        }
         
         
 	}
