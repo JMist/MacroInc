@@ -62,6 +62,7 @@ public class LevelOne {
 		pizzaImage = new Texture(Gdx.files.internal("pizza.png"));
 		carImage = new Texture(Gdx.files.internal("pizzaCar.png"));
 		pizzaBackground = new Texture(Gdx.files.internal("pizzaBackground.png"));
+		pizzaCollect=Gdx.audio.newSound(Gdx.files.internal("pizzaCollect.wav"));
 		// Getting textures.
 
 		pizzas = new Array<Rectangle>();
