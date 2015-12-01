@@ -40,11 +40,11 @@ public class LevelTwoRecipeScreen implements Screen{
     boolean							isDialogRunning;
     boolean							isDoneTalking = true;
     
-    float							dialogCompletedTime;
+    float							dialogCompletedTime = 10;
     
     private Vector2 				touchPos;
-    
-    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 increments), hour (9-13 free market, 14, 15 are command), profitTotal}
+    final Texture					scoreCloud = new Texture(Gdx.files.internal("scorecloud.png"));
+    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 increments), hour (9-13 free market, 14, 15 are command), profitTotal in cents}
     //If this is changed, be sure to change all of the uses of "recipe" in the code.
     final int[] recipe;
     
@@ -88,8 +88,8 @@ public class LevelTwoRecipeScreen implements Screen{
 				
 		}
 		//DONE WITH RECIPE BUTTON
-		submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("waterachievement.png")), new Texture(Gdx.files.internal("waterachievement.png")));
-		submitButton.setX(800);
+		submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("readybutton.png")), new Texture(Gdx.files.internal("readybuttonpressed.png")));
+		submitButton.setX(760);
 		submitButton.setY(100);
 		submitButton.setHeight(100);
 		submitButton.setWidth(200);
@@ -117,7 +117,7 @@ public class LevelTwoRecipeScreen implements Screen{
 		
 		
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
-		background = new Texture(Gdx.files.internal("titlescreen.png"));
+		background = new Texture(Gdx.files.internal("recipebackground.png"));
 		
 		//DETERMINE RECIPE:
 		if(r[4] < 14)
@@ -127,9 +127,21 @@ public class LevelTwoRecipeScreen implements Screen{
 		recipe = newRecipe;
 		}
 		else
-			{int[] newRecipe = {15, 2, 18, 5, 15, r[5]} ;
+			{int[] newRecipe = {19, 20, 18, 2, 15, r[5]};
 		recipe = newRecipe;}
 		
+		//FIRST TRY ADD DIALOG
+		if(recipe[4] == 9)
+			addDialog("Try to shoot for a tasty recipe, and low prices.");
+		if(recipe[4] == 10 && recipe[3] < 20)
+			addDialog("It looks like a competitor is setting up shop next door. Keep your price low to keep sales high!");
+		else if(recipe[4] == 10 && recipe[3] >= 20)
+			addDialog("Looks like you've got competition. With that last price, you're not going to get ANY demand...");
+		else if(recipe[4] == 14)
+			addDialog("Welcome to the Command System, comrade. The Central Board has created a recipe for you.");
+		else if(recipe[4] == 15)
+			addDialog("wELcoMe 2 Our Well-Functioning CoMANd System. YOU are s3ll LEmOnade for ThE CENTRAL BOARD?@#?!");
+			
 	}
 	
 	//TEXT CREATION AND DIALOG
@@ -181,7 +193,26 @@ public class LevelTwoRecipeScreen implements Screen{
         
         //DRAW BUTTONS, RECIPE VALUES, PROFIT PER GLASS
         double cost = recipe[0]*.25/8 + recipe[1]*.1/8 + recipe[2]*.01 ;
-        
+        game.batch.draw(scoreCloud, 670, 360);
+        game.font.draw(game.batch, "Hour: "+recipe[4]+":00", 710, 430);
+        if(Math.abs(recipe[5])%100 < 10)
+        	if(recipe[5] >=0)
+        		game.font.draw(game.batch, "Total Profit Today: $" + recipe[5]/100 + ".0" + recipe[5]%100, 710, 410);
+            else
+            {
+            	game.font.setColor(1f, 0, 0, 1);
+            	game.font.draw(game.batch, "Total Profit Today: -$" + (-recipe[5])/100 + ".0" + (-recipe[5])%100, 710, 410);
+            	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+            }
+        else
+            if(recipe[5] >=0)
+                game.font.draw(game.batch, "Total Profit Today: $" + recipe[5]/100 + "." + recipe[5]%100, 710, 410);
+            else
+                {
+                	game.font.setColor(1f, 0, 0, 1);
+                	game.font.draw(game.batch, "Total Profit Today: -$" + (-recipe[5])/100 + "." + (-recipe[5])%100, 710, 410);
+                	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+                }
         //Profit in cents
         int profitPerGlass = 10*recipe[3] - (int)(100*cost);
                 
@@ -193,15 +224,25 @@ public class LevelTwoRecipeScreen implements Screen{
         
         for(int i = 0; i < 3; i++)
         game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
-        game.font.draw(game.batch, ""+ recipe[3]/10 + "." + recipe[3]%10, 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
-        if(profitPerGlass >0)
-        game.font.draw(game.batch, "Profit per glass: $" + profitPerGlass/100 + "." + profitPerGlass%100, 800, 240);
-        else
-        {
+        game.font.draw(game.batch, "$"+ recipe[3]/10 + "." + recipe[3]%10 + "0", 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+        if(Math.abs(profitPerGlass)%100 < 10)
+        	if(profitPerGlass >=0)
+        			game.font.draw(game.batch, "Profit per glass: $" + profitPerGlass/100 + ".0" + profitPerGlass%100, 800, 240);
+        	else
+        	{
         	game.font.setColor(1f, 0, 0, 1);
-        	game.font.draw(game.batch, "Profit per glass: - $" + (-profitPerGlass)/100 + "." + (-profitPerGlass%100), 800, 240);
+        	game.font.draw(game.batch, "Profit per glass: - $" + (-profitPerGlass)/100 + ".0" + (-profitPerGlass%100), 800, 240);
         	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
-        }
+        	}
+        else
+        	if(profitPerGlass >=0)
+    			game.font.draw(game.batch, "Profit per glass: $" + profitPerGlass/100 + "." + profitPerGlass%100, 800, 240);
+        	else
+        	{
+        		game.font.setColor(1f, 0, 0, 1);
+        		game.font.draw(game.batch, "Profit per glass: - $" + (-profitPerGlass)/100 + "." + (-profitPerGlass%100), 800, 240);
+        		game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+        	}
         	//DRAW DIALOG
         if(isDialogRunning)
         {
@@ -282,7 +323,7 @@ public class LevelTwoRecipeScreen implements Screen{
         			error.play();
         		break;
         	case 7:
-        		if(recipe[3]*.1 > cost)
+        		if(recipe[3]*.1 > cost + .099)
         			recipe[3]--;
         		else
         			error.play();
@@ -294,8 +335,7 @@ public class LevelTwoRecipeScreen implements Screen{
         	//IF RECIPE IS READY
         	if(submitButton.getLocation().contains(touchPos))
         	{//Move on? setScreen(new Cutscene...
-        		
-        		return;
+        		game.setScreen(new LevelTwoStand(game, recipe));
         	}
         }
         
@@ -317,9 +357,8 @@ public class LevelTwoRecipeScreen implements Screen{
         	     addDialog("This recipe, it is good. Trust the central board.");
         		}
         	if(submitButton.getLocation().contains(touchPos))
-        	{//Move on? setScreen(new Cutscene...
-        		
-        		return;
+        	{//Move on? setScreen(new Cutscene...       		
+        		game.setScreen(new LevelTwoStand(game, recipe));
         	}
         }
         

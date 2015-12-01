@@ -36,6 +36,14 @@ public class LevelTwoStand implements Screen{
     TextureRegion                   currentFrame;        
     private float stateTime;
     
+    final Texture					playerStand = new Texture(Gdx.files.internal("playerstand.png"));
+    final Texture					redPlayerStand = new Texture(Gdx.files.internal("redplayerstand.png"));
+    final Texture					competitorStand = new Texture(Gdx.files.internal("competitorstand.png"));
+    final Texture					scoreCloud = new Texture(Gdx.files.internal("scorecloud.png"));
+    public static final int 		STAND_Y = 200;
+    public static final int			PLAYER_STAND_X = 320;
+    public static final int			COMPETITOR_STAND_X = 830;
+    
     private float					runningTime;
     
     Texture							textContainer;
@@ -53,9 +61,10 @@ public class LevelTwoStand implements Screen{
     private int									peepsServed = 0;
     
     private boolean								spawning = false;
+    private boolean								done	= false;
     //Level specific values
     
-    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 cent increments), hour (9-13 free market, 14, 15 are command), profitTotal}
+    //recipe = {lemons, sugar (in 1/4 cups), ice (in cube count/glass), cost (in .10 cent increments), hour (9-13 free market, 14, 15 are command), profitTotal in cents}
     //If this is changed, be sure to change all of the uses of "recipe" in the code.
     final int[] recipe;
     
@@ -93,10 +102,15 @@ public class LevelTwoStand implements Screen{
 		camera.setToOrtho(false, 1000, 480);
 		
 		//FOR TESTING
-		spawning = true;
 		peeps = new Array<Peep>();
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
-		background = new Texture(Gdx.files.internal("titlescreen.png"));
+		background = new Texture(Gdx.files.internal("leveltwostandbackground.png"));
+		
+		//START OF LEVEL DIALOG
+		if(recipe[4] <14)
+		addDialog("ALRIGHT! Here they come! Get selling!");
+		else
+			addDialog("ALRIGHT! Here they come! Get selling, comrade!");
 	}
 	
 	//DIALOG AND TEXT
@@ -137,11 +151,11 @@ public class LevelTwoStand implements Screen{
 	public double determineCustomerAttraction()
 	{
 		if(recipe[4] == 9)
-			return .8;
+			return .8/(Math.pow(4, recipe[3]*.10));
 		else
 		{
-			double x = Math.pow(2, (1 + recipe[4]*.1))*determineCustomerSatisfaction();
-			double y = Math.pow(2, recipe[3]*.10)*(.3 + .14*(recipe[4] - 9));
+			double x = Math.pow(4, (1 + recipe[4]*.1))*determineCustomerSatisfaction();
+			double y = Math.pow(4, recipe[3]*.10)*(.3 + .14*(recipe[4] - 9));
 			return x/(x+y);
 		}
 	}
@@ -150,14 +164,16 @@ public class LevelTwoStand implements Screen{
 	//RENDERING
 	public void render(float delta)
 	{	
+		if(peepsSpawned == 0 && !spawning && runningTime > 3)
+			spawning = true;
 		//Clears screen to black
 		Gdx.gl.glClearColor(1, 1, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         runningTime += Gdx.graphics.getDeltaTime();
         
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))              	
-        		addDialog("Hey Bill, get the Will");     	
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))              	
+//        		addDialog("Hey Bill, get the Will");     	
         //Sets up camera
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
@@ -167,7 +183,48 @@ public class LevelTwoStand implements Screen{
         //DRAW BACKGROUND
         game.batch.draw(background, 0, 0);
         //DRAW STANDS
-        //?
+        if(recipe[4] == 9)
+        {
+        	game.batch.draw(playerStand, PLAYER_STAND_X, STAND_Y);
+        }
+        else if(recipe[4] < 14)
+        {
+        	game.batch.draw(playerStand, PLAYER_STAND_X, STAND_Y);
+        	game.batch.draw(competitorStand, COMPETITOR_STAND_X, STAND_Y);
+        }
+        else
+        {
+        	game.batch.draw(redPlayerStand, PLAYER_STAND_X, STAND_Y);
+        	game.batch.draw(competitorStand, COMPETITOR_STAND_X, STAND_Y);
+        }
+        
+        //DRAW SCORE
+        double cost = recipe[0]*.25/8 + recipe[1]*.1/8 + recipe[2]*.01 ;        
+        //Profit in cents
+        int profitPerGlass = 10*recipe[3] - (int)(100*cost);
+        int profit = recipe[5] + profitPerGlass*peepsServed;
+        
+        game.batch.draw(scoreCloud, 170, 380);
+        game.font.draw(game.batch, "People served this hour: "+peepsServed, 210, 440);
+        if(Math.abs(profit)%100 < 10)
+        	if(profit >=0)
+            game.font.draw(game.batch, "Total Profit Today: $" + profit/100 + ".0" + profit%100, 220, 420);
+            else
+            {
+            	game.font.setColor(1f, 0, 0, 1);
+            	game.font.draw(game.batch, "Total Profit Today: -$" + (-profit)/100 + ".0" + (-profit)%100, 220, 420);
+            	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+            }
+        else
+            if(profit >=0)
+                game.font.draw(game.batch, "Total Profit Today: $" + profit/100 + "." + profit%100, 220, 420);
+                else
+                {
+                	game.font.setColor(1f, 0, 0, 1);
+                	game.font.draw(game.batch, "Total Profit Today: -$" + (-profit)/100 + "." + (-profit)%100, 220, 420);
+                	game.font.setColor(game.FONT_COLOR[0], game.FONT_COLOR[1], game.FONT_COLOR[2], 1);
+                }
+        
         //RENDER PEEPS
         for(Peep person: peeps) {
 		      game.batch.draw(person.getFrame(), person.x, person.y);
@@ -194,6 +251,17 @@ public class LevelTwoStand implements Screen{
         }
         
         
+        
+        	if(done)
+        	{
+        		//Fade out?
+        		if(recipe[4] <= 14)
+        		{int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
+        		game.setScreen(new LevelTwoRecipeScreen(game, newR));
+        		}
+        		else
+        		game.setScreen(new TitleScreen(game));
+        	}
         //DRAW ACHIEVEMENT
         if(recipe[0]==0 && recipe[1] == 0 && recipe[3] > 0)
         	{Texture t = new Texture(Gdx.files.internal("waterachievement.png"));
@@ -208,7 +276,7 @@ public class LevelTwoStand implements Screen{
         game.batch.end();
         
 		//SPAWN NECESSARY PEEPS
-        if(TimeUtils.nanoTime() - lastPeepTime > 1000000000d && spawning) spawnPeep();
+        if(TimeUtils.nanoTime() - lastPeepTime > 250000000d && spawning) spawnPeep();
         //ELIMINATE PEEPS THAT ARE OFFSCREEN
         Iterator<Peep> iter = peeps.iterator();
         while(iter.hasNext())
@@ -216,6 +284,8 @@ public class LevelTwoStand implements Screen{
         	if (Math.abs(person.x) > 1000 || Math.abs(person.y) > 480)
         		iter.remove();
         }
+        if(peepsSpawned == 60 && !iter.hasNext())
+        	done = true;
 	}
 	
 	

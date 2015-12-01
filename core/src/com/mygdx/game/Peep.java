@@ -14,17 +14,17 @@ final Texture 			outfit;
 //Time at birth of the Peep
 final long				birthTime;
 //Time it takes to walk through the a step, in seconds
-static final float 		WALK_SPEED = .4f;
+static final float 		WALK_SPEED = .02f;
 static final float		STEP_LENGTH = 80;
 //Locations of the bottom left corner of the Peep when he buys the lemonade.
-static final int		PLAYER_X = 200;
-static final int		PLAYER_Y = 200;
+static final int		PLAYER_X = LevelTwoStand.PLAYER_STAND_X + 50;
+static final int		PLAYER_Y = LevelTwoStand.STAND_Y - 30;
 
-static final int		COMPETITOR_X = 400;
-static final int		COMPETITOR_Y = 200;
+static final int		COMPETITOR_X = LevelTwoStand.COMPETITOR_STAND_X + 20;
+static final int		COMPETITOR_Y = LevelTwoStand.STAND_Y - 30;
 
-static final int		PEEP_START_X = 100;
-static final int		PEEP_START_Y = 40;
+static final int		PEEP_START_X = 0;
+static final int		PEEP_START_Y = 100;
 //bottom left x and y coordinates, in pixels
 public int x;
 public int y;
