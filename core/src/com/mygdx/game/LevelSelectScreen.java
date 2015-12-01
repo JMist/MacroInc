@@ -10,7 +10,7 @@ public class LevelSelectScreen implements Screen{
 	int levelsComplete;
 	
 	//FileHandle tells the screen which levels are available.
-	public LevelSelectScreen(MacroInc g, FileHandle f)
+	public LevelSelectScreen(MacroInc g)
 	{
 		game = g;
 		
