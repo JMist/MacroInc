@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class MacroInc extends Game {
 	SpriteBatch batch;
@@ -15,6 +16,12 @@ public class MacroInc extends Game {
 	BitmapFont font;
 	
 	final static float[] FONT_COLOR = {.3f, .3f, .3f};
+	
+	
+	public Vector2 screenTransform(Vector2 v)
+	{
+		return new Vector2(v.x, 480 - v.y);
+	}
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

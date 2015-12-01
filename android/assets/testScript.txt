@@ -3,3 +3,4 @@
 /t This is the text. /e
 /bg bg1.png /f sampleface3.png
 /bg bg2.png /f sampleface.png
+/terminate

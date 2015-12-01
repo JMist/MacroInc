@@ -76,8 +76,8 @@ public class Cutscene implements Screen{
 		//To be implemented later
 	}
     public void read()
-    {	//Check for end to cutscene
-    	
+    {	
+    	//Check for end to cutscene  	
     	if(read.hasNext("/terminate"))
     	{
     		System.out.println("Cutscene terminated");
@@ -180,9 +180,9 @@ public class Cutscene implements Screen{
     	
 		game.batch.begin();
 		game.batch.draw(background, 0, 0);
-		game.batch.draw(textContainer, 25, 25);
-		game.font.draw(game.batch, displayText, 220, 125);
-        game.batch.draw(currentFrame, 50, 50);
+		game.batch.draw(textContainer, 0, 0);
+		game.font.draw(game.batch, displayText, 195, 100);
+        game.batch.draw(currentFrame, 40, 25);
         game.batch.end();
         
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
