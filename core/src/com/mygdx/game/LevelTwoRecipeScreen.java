@@ -191,7 +191,7 @@ public class LevelTwoRecipeScreen implements Screen{
         //DRAW BACKGROUND        
         game.batch.draw(background, 0, 0);
         
-        //DRAW BUTTONS, RECIPE VALUES, PROFIT PER GLASS
+        //DRAW  RECIPE VALUES, PROFIT PER GLASS
         double cost = recipe[0]*.25/8 + recipe[1]*.1/8 + recipe[2]*.01 ;
         game.batch.draw(scoreCloud, 670, 360);
         game.font.draw(game.batch, "Hour: "+recipe[4]+":00", 710, 430);
@@ -215,13 +215,14 @@ public class LevelTwoRecipeScreen implements Screen{
                 }
         //Profit in cents
         int profitPerGlass = 10*recipe[3] - (int)(100*cost);
-                
+          
+        
+      //BUTTONS
         for(Button e: buttons)
         {
         	e.draw();
         }
         submitButton.draw();
-        
         for(int i = 0; i < 3; i++)
         game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
         game.font.draw(game.batch, "$"+ recipe[3]/10 + "." + recipe[3]%10 + "0", 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);

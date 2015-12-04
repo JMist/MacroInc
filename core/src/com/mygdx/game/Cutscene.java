@@ -193,6 +193,13 @@ public class Cutscene implements Screen{
         	keyPressed = TimeUtils.nanoTime();
         	}
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
+        {
+        	//Fade out?
+        	System.out.println("Cutscene terminated");
+    		fadeOut();
+    		game.setScreen(toFollow);
+        }
 	}
 	 public void pause()
 	 {

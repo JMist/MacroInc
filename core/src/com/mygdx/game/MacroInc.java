@@ -15,6 +15,7 @@ public class MacroInc extends Game {
 	
 	BitmapFont font;
 	
+	FileHandle save;
 	final static float[] FONT_COLOR = {.3f, .3f, .3f};
 	
 	
@@ -28,6 +29,8 @@ public class MacroInc extends Game {
 		font = new BitmapFont();
 		font.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], 1);
 		this.setScreen(new TitleScreen(this));
+			save = Gdx.files.local("playerdata.txt");
+			System.out.println(save.path());
 	}
 
 	@Override

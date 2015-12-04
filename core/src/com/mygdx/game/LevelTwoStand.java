@@ -151,8 +151,10 @@ public class LevelTwoStand implements Screen{
 	public double determineCustomerAttraction()
 	{
 		if(recipe[4] == 9)
-			return .8/(Math.pow(4, recipe[3]*.10));
+			if(recipe[3] > 10)
+			return .8/(Math.pow(4, recipe[3]*.10));			
 		else
+			return 1 - .2*(Math.pow(3, recipe[3]*.10));
 		{
 			double x = Math.pow(4, (1 + recipe[4]*.1))*determineCustomerSatisfaction();
 			double y = Math.pow(4, recipe[3]*.10)*(.3 + .14*(recipe[4] - 9));
