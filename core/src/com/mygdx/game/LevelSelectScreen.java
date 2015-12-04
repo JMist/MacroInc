@@ -17,7 +17,7 @@ public class LevelSelectScreen implements Screen{
 	
 	final Sound				error = Gdx.audio.newSound(Gdx.files.internal("error.wav"));
 	
-	final Texture			background = new Texture(Gdx.files.internal("recipebackground.png"));
+	final Texture			background = new Texture(Gdx.files.internal("levelSelectBackground.png"));
 	final Button[]			levelButtons;
 	final Texture[]			levelIcons;
 	final String[]			levelIconPaths =
@@ -51,7 +51,7 @@ public class LevelSelectScreen implements Screen{
 			levelButtons[i] = new Button(game, new Rectangle(0, 0, 150, 150), levelIcons[i], levelIcons[i]);
 		
 			levelButtons[i].setX(125 + (i%4)*200);
-			levelButtons[i].setY(480 - 200 - (i/4)*200);
+			levelButtons[i].setY(480 - 220 - (i/4)*200);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class LevelSelectScreen implements Screen{
     	//DRAW LOCKS ON LOCKED LEVELS
     	for(int i = levelsComplete+1; i < levelButtons.length; i++)
     	{
-    		game.batch.draw(new Texture(Gdx.files.internal("lock.png")), 125 + (i%4)*200, 480 - 200 - (i/4)*200);
+    		game.batch.draw(new Texture(Gdx.files.internal("lock.png")), 125 + (i%4)*200, 480 - 220 - (i/4)*200);
     	}
     	
     	//CLICK MANAGEMENT FOR BUTTONS
