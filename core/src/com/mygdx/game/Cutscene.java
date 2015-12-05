@@ -34,6 +34,7 @@ public class Cutscene implements Screen{
     //Delay times for key input and text timing, respectively.
     private static final float		KEY_DELAY = .5f;
     private static final float		TEXT_DELAY = .03f;
+    private static final int		CHARS_PER_LINE = 55;
     float keyPressed;
     Animation                       faceAnimation;          // #3
     Texture                         faceSheet;              // #4
@@ -43,12 +44,14 @@ public class Cutscene implements Screen{
 
     Texture							background;
     
+    int lineNumber = 1;
     //The container image for the text
     private static final Texture textContainer = new Texture(Gdx.files.internal("textpanel.png"));
     
     //Things for text display
     //The full line that is begin printed a character at a time.
     String							currentText = "";
+    int currentTextInitialLength = 0;
     //The characters that are currently on the screen.
     String							displayText = "";
     //Should the face's mouth be closed?
@@ -69,6 +72,7 @@ public class Cutscene implements Screen{
         //For testing:
         setBackground("bg1.png");
         System.out.println(script.readString());
+        
 	}
     
 	public void fadeOut()
@@ -82,6 +86,7 @@ public class Cutscene implements Screen{
     	{
     		System.out.println("Cutscene terminated");
     		fadeOut();
+    		
     		game.setScreen(toFollow);
     	}
     	//Check for background update
@@ -103,6 +108,7 @@ public class Cutscene implements Screen{
     		if(read.hasNext())
     			setFace(read.next());
     		currentText = "";
+    		displayText = "";
     	}
     	
     	//Check for text update
@@ -115,6 +121,7 @@ public class Cutscene implements Screen{
     		{
     			currentText = currentText + read.next() + " ";
     		}
+    		currentTextInitialLength = currentText.length();
     		System.out.println(currentText);
     		System.out.println(read.next() + " finished");
     	}
@@ -129,6 +136,7 @@ public class Cutscene implements Screen{
     		{
     			currentText = currentText + read.next() + " ";
     		}
+    		currentTextInitialLength = currentText.length();
     		System.out.println(currentText);
     		System.out.println(read.next() + " finished");
     	}
@@ -158,13 +166,64 @@ public class Cutscene implements Screen{
 	
     //
     public void prepText(float f)
-    {	if((int)(f/TEXT_DELAY)  > currentText.length())
+    {	
+		
+		//if the text has finished the line
+		if(!((f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*lineNumber  > currentText.length()) && currentText.length() > 0 && (int)(f/TEXT_DELAY) > CHARS_PER_LINE *lineNumber + 3*(lineNumber-1))
+		{
+			//If the line ends just before punctuation...
+			if(currentText.substring(displayText.length(), displayText.length()+1).equals(".") || currentText.substring(displayText.length(), displayText.length()+1).equals(",") || currentText.substring(displayText.length(), displayText.length()+1).equals("!"))
+			{
+				currentText = currentText.substring(0, displayText.length() + 1) + "\n  " + currentText.substring( displayText.length() + 1, currentText.length()); 
+				lineNumber++;
+			}
+				//If the line ends in space
+		else if(currentText.substring(displayText.length(), displayText.length()+1).equals(" ") || currentText.substring(displayText.length()-1, displayText.length()).equals(" "))
+			{
+				currentText = currentText.substring(0, displayText.length()) + " \n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Line doesn't end in space
+			else
+			{
+				
+				currentText = currentText.substring(0, displayText.length()) + "-\n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Kill the upper text if you have to.
+			if(lineNumber > 2)
+			{
+				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+			}
+		}
+		//if the text is over
+	else if((int)(f/TEXT_DELAY)- (CHARS_PER_LINE + 3)*(lineNumber-1)   > currentText.length())
     {
     	displayText = currentText;
     	isDoneTalking = true;
+    	lineNumber = 1;
+    	//dialogCompletedTime = f;
     }
+		//Text isn't over
     else
-    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY) );
+    {
+    	if(currentText.length() > 0)
+    	if(lineNumber ==1)
+    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY));
+    	else
+    	{
+    		if(((int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3) <= currentText.length())
+    			displayText = currentText.substring(0, (int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3);
+    		else
+    		{
+    			displayText = currentText;
+    			lineNumber = 1;
+    			isDoneTalking = true;
+    		}
+    	}
+    		
+    }
+    	
     }
     public void render(float delta)
 	{	Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -172,6 +231,7 @@ public class Cutscene implements Screen{
 		
     	
 		stateTime += Gdx.graphics.getDeltaTime();           // #15
+		if(!isDoneTalking)
 		prepText(stateTime);
 		
     	currentFrame = faceAnimation.getKeyFrame(stateTime, true);
@@ -181,7 +241,8 @@ public class Cutscene implements Screen{
 		game.batch.begin();
 		game.batch.draw(background, 0, 0);
 		game.batch.draw(textContainer, 0, 0);
-		game.font.draw(game.batch, displayText, 195, 100);
+		//WAS 195, 100
+		game.dialogFont.draw(game.batch, displayText, 160, 120);
         game.batch.draw(currentFrame, 40, 25);
         game.batch.end();
         
@@ -198,6 +259,7 @@ public class Cutscene implements Screen{
         	//Fade out?
         	System.out.println("Cutscene terminated");
     		fadeOut();
+    		
     		game.setScreen(toFollow);
         }
 	}

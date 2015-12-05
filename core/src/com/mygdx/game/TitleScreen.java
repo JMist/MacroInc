@@ -111,8 +111,8 @@ public class TitleScreen implements Screen{
         game.batch.end();
         
         //FOR TESTING CUTSCENE.JAVA
-        	if(Gdx.input.isTouched() && openingScreen)
-        		openingScreen = false;
+        	//if(Gdx.input.isTouched())
+        	//game.setScreen(new Cutscene(game, Gdx.files.internal("loremIpsumScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), this));
         	
@@ -121,6 +121,9 @@ public class TitleScreen implements Screen{
         	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
         	//game.setScreen(new LevelTwoRecipeScreen(game, new int[] {6, 6, 2, 7, 15, 0}));
         //game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoStand(game, new int[] {0, 0, 0, 1, 9, 0})));
+	
+        if(Gdx.input.isTouched() && openingScreen)
+    		openingScreen = false;
 	}
 	public void pause()
 	 {

@@ -33,6 +33,8 @@ public class LevelScreenDialogTemplate implements Screen{
     private float stateTime;
     
     private float					runningTime;
+    private static final int		CHARS_PER_LINE = 55;
+    int lineNumber = 1;
     
     Texture							textContainer;
     String							displayText;
@@ -77,18 +79,69 @@ public class LevelScreenDialogTemplate implements Screen{
 		currentText = text;
 		isDoneTalking = false;
 		isDialogRunning = true;
+		
 	}
 
 	public void prepText(float f)
     {	
-		if((int)(f/TEXT_DELAY)  > currentText.length())
+		
+		//if the text has finished the line
+		if(!((f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*lineNumber  > currentText.length()) && currentText.length() > 0 && (int)(f/TEXT_DELAY) > CHARS_PER_LINE *lineNumber + 3*(lineNumber-1))
+		{
+			//If the line ends just before punctuation...
+			if(currentText.substring(displayText.length(), displayText.length()+1).equals(".") || currentText.substring(displayText.length(), displayText.length()+1).equals(",") || currentText.substring(displayText.length(), displayText.length()+1).equals("!"))
+			{
+				currentText = currentText.substring(0, displayText.length() + 1) + "\n  " + currentText.substring( displayText.length() + 1, currentText.length()); 
+				lineNumber++;
+			}
+				//If the line ends in space
+		else if(currentText.substring(displayText.length(), displayText.length()+1).equals(" ") || currentText.substring(displayText.length()-1, displayText.length()).equals(" "))
+			{
+				currentText = currentText.substring(0, displayText.length()) + " \n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Line doesn't end in space
+			else
+			{
+				
+				currentText = currentText.substring(0, displayText.length()) + "-\n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Kill the upper text if you have to.
+			if(lineNumber > 2)
+			{
+				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+			}
+		}
+		//if the text is over
+	else if((int)(f/TEXT_DELAY)- (CHARS_PER_LINE + 3)*(lineNumber-1)   > currentText.length())
     {
     	displayText = currentText;
     	isDoneTalking = true;
+    	lineNumber = 1;
     	dialogCompletedTime = f;
     }
+		//Text isn't over
     else
-    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY) );
+    {
+    	if(currentText.length() > 0)
+    	if(lineNumber ==1)
+    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY));
+    	else
+    	{
+    		if(((int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3) <= currentText.length())
+    			displayText = currentText.substring(0, (int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3);
+    		else
+    		{
+    			displayText = currentText;
+    			isDoneTalking = true;
+    			lineNumber = 1;
+    	    	dialogCompletedTime = f;
+    		}
+    	}
+    		
+    }
+    	
     }
 	
 	
@@ -121,7 +174,7 @@ public class LevelScreenDialogTemplate implements Screen{
     			currentFrame = faceAnimation.getKeyFrame(0, true);
         	}	
         	game.batch.draw(textContainer, 0, 0);
-    		game.font.draw(game.batch, displayText, 195, 100);
+    		game.dialogFont.draw(game.batch, displayText, 160, 120);
             game.batch.draw(currentFrame, 40, 25);
         if(stateTime - dialogCompletedTime > POST_DIALOG_DELAY)
         {

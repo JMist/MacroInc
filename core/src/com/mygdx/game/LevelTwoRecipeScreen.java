@@ -32,6 +32,9 @@ public class LevelTwoRecipeScreen implements Screen{
     TextureRegion                   currentFrame;        
     private float stateTime;
     
+    private static final int		CHARS_PER_LINE = 55;
+    int lineNumber = 1;
+    
     private float					runningTime;
     
     Texture							textContainer;
@@ -40,7 +43,7 @@ public class LevelTwoRecipeScreen implements Screen{
     boolean							isDialogRunning;
     boolean							isDoneTalking = true;
     
-    float							dialogCompletedTime = 10;
+    float							dialogCompletedTime = 15;
     
     private Vector2 				touchPos;
     final Texture					scoreCloud = new Texture(Gdx.files.internal("scorecloud.png"));
@@ -140,7 +143,7 @@ public class LevelTwoRecipeScreen implements Screen{
 		else if(recipe[4] == 14)
 			addDialog("Welcome to the Command System, comrade. The Central Board has created a recipe for you.");
 		else if(recipe[4] == 15)
-			addDialog("wELcoMe 2 Our Well-Functioning CoMANd System. YOU are s3ll LEmOnade for ThE CENTRAL BOARD?@#?!");
+			addDialog("Welcome to the well-functioning, never-failing Command System, comrade. The Central Board has created a flawless, unbeatable recipe for you.");
 			
 	}
 	
@@ -155,16 +158,65 @@ public class LevelTwoRecipeScreen implements Screen{
 
 	public void prepText(float f)
     {	
-		if((int)(f/TEXT_DELAY)  > currentText.length())
+		
+		//if the text has finished the line
+		if(!((f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*lineNumber  > currentText.length()) && currentText.length() > 0 && (int)(f/TEXT_DELAY) > CHARS_PER_LINE *lineNumber + 3*(lineNumber-1))
+		{
+			//If the line ends just before punctuation...
+			if(currentText.substring(displayText.length(), displayText.length()+1).equals(".") || currentText.substring(displayText.length(), displayText.length()+1).equals(",") || currentText.substring(displayText.length(), displayText.length()+1).equals("!"))
+			{
+				currentText = currentText.substring(0, displayText.length() + 1) + "\n  " + currentText.substring( displayText.length() + 1, currentText.length()); 
+				lineNumber++;
+			}
+				//If the line ends in space
+		else if(currentText.substring(displayText.length(), displayText.length()+1).equals(" ") || currentText.substring(displayText.length()-1, displayText.length()).equals(" "))
+			{
+				currentText = currentText.substring(0, displayText.length()) + " \n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Line doesn't end in space
+			else
+			{
+				
+				currentText = currentText.substring(0, displayText.length()) + "-\n " + currentText.substring( displayText.length(), currentText.length());
+				lineNumber++;
+			}
+			//Kill the upper text if you have to.
+			if(lineNumber > 2)
+			{
+				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+			}
+		}
+		//if the text is over
+	else if((int)(f/TEXT_DELAY)- (CHARS_PER_LINE + 3)*(lineNumber-1)   > currentText.length())
     {
     	displayText = currentText;
     	isDoneTalking = true;
+    	lineNumber = 1;
     	dialogCompletedTime = f;
     }
+		//Text isn't over
     else
-    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY) );
+    {
+    	if(currentText.length() > 0)
+    	if(lineNumber ==1)
+    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY));
+    	else
+    	{
+    		if(((int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3) <= currentText.length())
+    			displayText = currentText.substring(0, (int)(f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*(lineNumber-2) + 3);
+    		else
+    		{
+    			displayText = currentText;
+    			isDoneTalking = true;
+    			lineNumber = 1;
+    	    	dialogCompletedTime = f;
+    		}
+    	}
+    		
     }
-	
+    	
+    }
 	
 	//RENDER
 	public void render(float delta)
@@ -224,7 +276,7 @@ public class LevelTwoRecipeScreen implements Screen{
         }
         submitButton.draw();
         for(int i = 0; i < 3; i++)
-        game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+        game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE + 20, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
         game.font.draw(game.batch, "$"+ recipe[3]/10 + "." + recipe[3]%10 + "0", 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
         if(Math.abs(profitPerGlass)%100 < 10)
         	if(profitPerGlass >=0)
@@ -256,7 +308,7 @@ public class LevelTwoRecipeScreen implements Screen{
     			currentFrame = faceAnimation.getKeyFrame(0, true);
         	}	
         	game.batch.draw(textContainer, 0, 0);
-    		game.font.draw(game.batch, displayText, 195, 100);
+    		game.dialogFont.draw(game.batch, displayText, 160, 120);
             game.batch.draw(currentFrame, 40, 25);
         if(stateTime - dialogCompletedTime > POST_DIALOG_DELAY)
         {

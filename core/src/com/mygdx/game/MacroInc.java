@@ -13,6 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 public class MacroInc extends Game {
 	SpriteBatch batch;
 	
+	BitmapFont dialogFont;
+	BitmapFont normalFont;
+	
 	BitmapFont font;
 	
 	FileHandle save;
@@ -27,6 +30,13 @@ public class MacroInc extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		dialogFont = new BitmapFont();
+		dialogFont.setColor(0, 0, 0, 1);
+		dialogFont.getData().setScale(2f);
+		
+		normalFont = new BitmapFont();
+		normalFont.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], 1);
+		
 		font.setColor(FONT_COLOR[0], FONT_COLOR[1], FONT_COLOR[2], 1);
 		this.setScreen(new TitleScreen(this));
 			save = Gdx.files.local("playerdata.txt");
