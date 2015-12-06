@@ -23,7 +23,7 @@ public class LevelScreenDialogTemplate implements Screen{
 	
 	//Copied from Cutscene.java
 	private static final float		FRAME_RATE = .12f;
-	private static final float		TEXT_DELAY = .03f;
+	private static final float		TEXT_DELAY = MacroInc.TEXT_DELAY;
 	private static final float		POST_DIALOG_DELAY = 2f;
     float keyPressed;
     Animation                       faceAnimation;          // #3
@@ -110,7 +110,7 @@ public class LevelScreenDialogTemplate implements Screen{
 			//Kill the upper text if you have to.
 			if(lineNumber > 2)
 			{
-				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+				currentText = currentText.substring(CHARS_PER_LINE + 3, currentText.length());
 			}
 		}
 		//if the text is over

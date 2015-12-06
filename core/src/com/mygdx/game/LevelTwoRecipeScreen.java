@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,7 +24,7 @@ public class LevelTwoRecipeScreen implements Screen{
 	
 	//Copied from Cutscene.java
 	private static final float		FRAME_RATE = .12f;
-	private static final float		TEXT_DELAY = .03f;
+	private static final float		TEXT_DELAY = MacroInc.TEXT_DELAY;
 	private static final float		POST_DIALOG_DELAY = 2f;
     float keyPressed;
     Animation                       faceAnimation;          // #3
@@ -31,6 +32,7 @@ public class LevelTwoRecipeScreen implements Screen{
     TextureRegion[]                 faceFrames;             // #5        // #6
     TextureRegion                   currentFrame;        
     private float stateTime;
+    
     
     private static final int		CHARS_PER_LINE = 55;
     int lineNumber = 1;
@@ -61,8 +63,18 @@ public class LevelTwoRecipeScreen implements Screen{
     private Button 					submitButton;
     //ERROR SOUND
     private Sound 					error;
+  //??
+  	String[] info = new String[] {"Lemons \n per pitcher", "1/4 cups Sugar \n per pitcher", "Ice cubes \n per glass", "Cost \n per glass"};
+  	BitmapFont f;
+  	
 	public LevelTwoRecipeScreen(final MacroInc g, int[] r)
+	
+	
 	{
+		//INSTANTIALIZE font for top left
+		f = new BitmapFont();
+        f.setColor(1f, .75f,0 ,1);
+        f.getData().setScale(3f);
 		//INSTANTIALIZE error sound
 		error = Gdx.audio.newSound(Gdx.files.internal("error.wav"));
 		game = g;
@@ -91,10 +103,10 @@ public class LevelTwoRecipeScreen implements Screen{
 				
 		}
 		//DONE WITH RECIPE BUTTON
-		submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("readybutton.png")), new Texture(Gdx.files.internal("readybuttonpressed.png")));
+		submitButton = new Button(game, new Rectangle(), new Texture(Gdx.files.internal("readybutton.png")), new Texture(Gdx.files.internal("readybutton.png")));
 		submitButton.setX(760);
 		submitButton.setY(100);
-		submitButton.setHeight(100);
+		submitButton.setHeight(80);
 		submitButton.setWidth(200);
 		//PREP GURU FACE
 		final int FRAME_COLS = 4;
@@ -133,20 +145,9 @@ public class LevelTwoRecipeScreen implements Screen{
 			{int[] newRecipe = {19, 20, 18, 2, 15, r[5]};
 		recipe = newRecipe;}
 		
-		//MOVE THIS TO AFTER FADE IN
-		//FIRST TRY ADD DIALOG
-		if(recipe[4] == 9)
-			addDialog("Try to shoot for a tasty recipe, and low prices.");
-		if(recipe[4] == 10 && recipe[3] < 20)
-			addDialog("It looks like a competitor is setting up shop next door. Keep your price low to keep sales high!");
-		else if(recipe[4] == 10 && recipe[3] >= 20)
-			addDialog("Looks like you've got competition. With that last price, you're not going to get ANY demand...");
-		else if(recipe[4] == 14)
-			addDialog("Welcome to the Command System, comrade. The Central Board has created a recipe for you.");
-		else if(recipe[4] == 15)
-			addDialog("Welcome to the well-functioning, never-failing Command System, comrade. The Central Board has created a flawless, unbeatable recipe for you.");
 		
-		game.startFadeIn();
+		
+		
 	}
 	
 	//TEXT CREATION AND DIALOG
@@ -186,7 +187,7 @@ public class LevelTwoRecipeScreen implements Screen{
 			//Kill the upper text if you have to.
 			if(lineNumber > 2)
 			{
-				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+				currentText = currentText.substring(CHARS_PER_LINE + 3, currentText.length());
 			}
 		}
 		//if the text is over
@@ -229,11 +230,12 @@ public class LevelTwoRecipeScreen implements Screen{
         
         runningTime += Gdx.graphics.getDeltaTime();
         
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))  {            	
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))  
+        {            	
         		if(recipe[4] < 14)addDialog("Edit your recipe here.");
         		else
 			addDialog("Welcome to the command system, my comrade.");
-	}
+        }
         
         //Sets up camera
         camera.update();
@@ -244,10 +246,11 @@ public class LevelTwoRecipeScreen implements Screen{
         
         //DRAW BACKGROUND        
         game.batch.draw(background, 0, 0);
+        f.draw(game.batch, "Recipe Design", 20, 470);
         
         //DRAW  RECIPE VALUES, PROFIT PER GLASS
         double cost = recipe[0]*.25/8 + recipe[1]*.1/8 + recipe[2]*.01 ;
-        game.batch.draw(scoreCloud, 670, 360);
+        //game.batch.draw(scoreCloud, 670, 360);
         game.font.draw(game.batch, "Hour: "+recipe[4]+":00", 710, 430);
         if(Math.abs(recipe[5])%100 < 10)
         	if(recipe[5] >=0)
@@ -280,7 +283,12 @@ public class LevelTwoRecipeScreen implements Screen{
         for(int i = 0; i < 3; i++)
         game.font.draw(game.batch, ""+ recipe[i], 150 + i*BUTTON_X_SPACE + 20, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
         game.font.draw(game.batch, "$"+ recipe[3]/10 + "." + recipe[3]%10 + "0", 150 + 3*BUTTON_X_SPACE, 480 - 100 - BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
-        if(Math.abs(profitPerGlass)%100 < 10)
+        for(int i = 0; i < 3; i++)
+            game.font.draw(game.batch, info[i], 150 + i*BUTTON_X_SPACE + 20, 480 - 100 - 3*BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+            game.font.draw(game.batch, info[3], 150 + 3*BUTTON_X_SPACE, 480 - 100 - 3*BUTTON_HEIGHT - BUTTON_Y_SPACE + 90);
+        
+            
+            if(Math.abs(profitPerGlass)%100 < 10)
         	if(profitPerGlass >=0)
         			game.font.draw(game.batch, "Profit per glass: $" + profitPerGlass/100 + ".0" + profitPerGlass%100, 800, 240);
         	else
@@ -317,6 +325,35 @@ public class LevelTwoRecipeScreen implements Screen{
         	isDialogRunning = false;
         }
         }
+        
+      //FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		//MOVE THIS TO AFTER FADE IN
+        		//FIRST TRY ADD DIALOG
+        		if(recipe[4] == 9)
+        			addDialog("Try to shoot for a tasty recipe, and a low price.");
+        		if(recipe[4] == 10 && recipe[3] < 20)
+        			addDialog("It looks like a competitor is setting up shop next door. Keep your price low to keep sales high!");
+        		else if(recipe[4] == 10 && recipe[3] >= 20)
+        			addDialog("It looks like a competitor is setting up shop next door. With that last price, you're not going to get ANY demand...");
+        		else if(recipe[4] == 14)
+        			addDialog("Welcome to the Command System, comrade. The Central Board has created a recipe for you.");
+        		else if(recipe[4] == 15)
+        			addDialog("Welcome to the well-functioning, never-failing Command System, comrade. The Central Board has created a flawless, unbeatable recipe for you.");
+        	}
+        }
+        if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		game.setScreen(new LevelTwoStand(game, recipe));
+        	}
+        }
+        
+        
         game.batch.end();
         //BATCH ENDS
         
@@ -390,8 +427,12 @@ public class LevelTwoRecipeScreen implements Screen{
         	//IF RECIPE IS READY
         	if(submitButton.getLocation().contains(touchPos))
         	{//Move on? setScreen(new Cutscene...
-        		game.setScreen(new LevelTwoStand(game, recipe));
+        		game.startFadeOut();
+        		
         	}
+        	
+        	
+        	
         }
         
         //CLICK MANAGEMENT COMMAND SYSTEM
@@ -442,6 +483,6 @@ public class LevelTwoRecipeScreen implements Screen{
 		
 	 }
 	 public void show(){
-		 
+		 game.startFadeIn();
 	 }
 }

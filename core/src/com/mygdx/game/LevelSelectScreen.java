@@ -53,6 +53,7 @@ public class LevelSelectScreen implements Screen{
 			levelButtons[i].setX(125 + (i%4)*200);
 			levelButtons[i].setY(480 - 220 - (i/4)*200);
 		}
+		//game.startFadeIn();
 	}
 	
 	
@@ -104,13 +105,29 @@ public class LevelSelectScreen implements Screen{
         	case 1:
         		//Fade out?
         		//Go into LevelTwo cutscene        		
-        		game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {5, 5, 5, 5, 9, 0})));
+        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {5, 5, 5, 5, 9, 0})));
         		break;
         	default:
         		break;
         	}}
         	else if(buttonTouched > 0)
         		error.play();
+        }
+    	
+    	//FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		
+        		}
+        }
+        if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		game.setScreen(game.toFollow);
+        	}
         }
     	
     	game.batch.end();
@@ -142,6 +159,6 @@ public class LevelSelectScreen implements Screen{
 		 
 	 }
 	 public void show(){
-		 
+		 game.startFadeIn();
 	 }
 }

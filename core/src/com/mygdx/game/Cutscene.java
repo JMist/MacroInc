@@ -31,9 +31,10 @@ public class Cutscene implements Screen{
     //Frame rate for face animation
     private static final float		FRAME_RATE = .5f;
     
+    private boolean beginCutscene;
     //Delay times for key input and text timing, respectively.
     private static final float		KEY_DELAY = .5f;
-    private static final float		TEXT_DELAY = .03f;
+    private static final float		TEXT_DELAY = MacroInc.TEXT_DELAY;
     private static final int		CHARS_PER_LINE = 55;
     float keyPressed;
     Animation                       faceAnimation;          // #3
@@ -55,8 +56,8 @@ public class Cutscene implements Screen{
     //The characters that are currently on the screen.
     String							displayText = "";
     //Should the face's mouth be closed?
-    boolean							isDoneTalking = false;
-    
+    boolean							isDoneTalking = true;
+    boolean							isThinking = true;
     
 	public Cutscene(MacroInc g, FileHandle s, Screen toFollowScreen)
     
@@ -72,8 +73,8 @@ public class Cutscene implements Screen{
         //For testing:
         setBackground("bg1.png");
         System.out.println(script.readString());
+        beginCutscene = false;
         
-        game.startFadeIn();
 	}
     
 	
@@ -85,7 +86,7 @@ public class Cutscene implements Screen{
     		System.out.println("Cutscene terminated");
     		
     		
-    		game.setScreen(toFollow);
+    		game.startFadeOut();
     	}
     	//Check for background update
     	if(read.hasNext(Pattern.compile("/bg")))
@@ -112,6 +113,7 @@ public class Cutscene implements Screen{
     	//Check for text update
     	if(read.hasNext(Pattern.compile("/t")))
     	{	isDoneTalking = false;
+    		isThinking = false;
     		stateTime = 0;
     		currentText = "";
     		System.out.println(read.next() + " changed");
@@ -126,7 +128,8 @@ public class Cutscene implements Screen{
     	
     	//Check for thought update
     	if(read.hasNext(Pattern.compile("/th")))
-    	{	
+    	{	isThinking = true;
+    		isDoneTalking = false;
     		stateTime = 0;
     		currentText = "";
     		System.out.println(read.next() + " changed");
@@ -191,7 +194,7 @@ public class Cutscene implements Screen{
 			//Kill the upper text if you have to.
 			if(lineNumber > 2)
 			{
-				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+				currentText = currentText.substring(CHARS_PER_LINE + 3, currentText.length());
 			}
 		}
 		//if the text is over
@@ -227,24 +230,16 @@ public class Cutscene implements Screen{
 	{	Gdx.gl.glClearColor(1, 1, 1, 1);
     	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-    	
+    	if(beginCutscene)
+    	{
 		stateTime += Gdx.graphics.getDeltaTime();           // #15
 		if(!isDoneTalking)
 		prepText(stateTime);
 		
     	currentFrame = faceAnimation.getKeyFrame(stateTime, true);
-		if(isDoneTalking)
+		if(isDoneTalking || isThinking)
 			currentFrame = faceAnimation.getKeyFrame(0, true);
-    	
-		game.batch.begin();
-		game.batch.draw(background, 0, 0);
-		game.batch.draw(textContainer, 0, 0);
-		//WAS 195, 100
-		game.dialogFont.draw(game.batch, displayText, 160, 120);
-        game.batch.draw(currentFrame, 40, 25);
-        game.batch.end();
-        
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
         {
         	if(TimeUtils.nanoTime() - keyPressed > 1000000000*KEY_DELAY)
         	{
@@ -256,10 +251,40 @@ public class Cutscene implements Screen{
         {
         	//Fade out?
         	System.out.println("Cutscene terminated");
-    		fadeOut();
+    		//fadeOut();
     		
-    		game.setScreen(toFollow);
+    		game.startFadeOut();
         }
+    	}
+		game.batch.begin();
+		
+			game.batch.draw(background, 0, 0);
+			if(beginCutscene)
+			{
+		game.batch.draw(textContainer, 0, 0);
+		//WAS 195, 100
+		game.dialogFont.draw(game.batch, displayText, 160, 120);
+			
+        game.batch.draw(currentFrame, 40, 25);
+			}
+      //FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		beginCutscene = true;
+        		}
+        }
+        if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		game.setScreen(toFollow);
+        	}
+        }
+        game.batch.end();
+        
+        
 	}
 	 public void pause()
 	 {
@@ -282,6 +307,6 @@ public class Cutscene implements Screen{
 		 
 	 }
 	 public void show(){
-		 
+		 game.startFadeIn();
 	 }
 }

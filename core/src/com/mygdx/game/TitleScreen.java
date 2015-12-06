@@ -26,8 +26,8 @@ public class TitleScreen implements Screen{
 	private Button newGameButton;
 	private Button continueButton;
 	
-	final Texture newGameButtonImg = new Texture(Gdx.files.internal("samplebutton.png"));
-	final Texture continueButtonImg = new Texture(Gdx.files.internal("samplebutton.png"));
+	final Texture newGameButtonImg = new Texture(Gdx.files.internal("newButton.png"));
+	final Texture continueButtonImg = new Texture(Gdx.files.internal("continueButton.png"));
 	public TitleScreen(final MacroInc g)
 	{
 		game = g;
@@ -42,15 +42,15 @@ public class TitleScreen implements Screen{
 		newGameButton = new Button(game, new Rectangle(), newGameButtonImg, newGameButtonImg);
 		continueButton = new Button(game, new Rectangle(), continueButtonImg, continueButtonImg);
 		
-		newGameButton.setX(475);
-		newGameButton.setY(100);
-		newGameButton.setWidth(50);
-		newGameButton.setHeight(20);
+		newGameButton.setX(200);
+		newGameButton.setY(50);
+		newGameButton.setWidth(200);
+		newGameButton.setHeight(80);
 		
-		continueButton.setX(475);
+		continueButton.setX(600);
 		continueButton.setY(50);
-		continueButton.setWidth(50);
-		continueButton.setHeight(20);
+		continueButton.setWidth(200);
+		continueButton.setHeight(80);
 	}
 	public void render(float delta)
 	{	
@@ -70,14 +70,15 @@ public class TitleScreen implements Screen{
         }
         else
         {
-        	
+        	FileHandle f = Gdx.files.local("playerdata.txt");
+    		String text = f.readString();
         	newGameButton.draw();
+        	if(!f.readString().equals("0"));
         	continueButton.draw();
         	if(Gdx.input.justTouched())
         	{	
         		
-        		FileHandle f = Gdx.files.local("playerdata.txt");
-        		String text = f.readString();
+        		
         		
         		Vector2 touchPos = game.screenTransform(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         		//New game touched
@@ -86,7 +87,7 @@ public class TitleScreen implements Screen{
         			if(text.equals("0"))
         			{
         				//Fade Out?
-        				game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
+        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
         			}
         			else
         			{
@@ -96,26 +97,40 @@ public class TitleScreen implements Screen{
         				}
         				else
         				{f.writeString("0", false);
-        				game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
+        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
         				}
         			}
         		}
         		else if(continueButton.getLocation().contains(touchPos))
         		{
         			//Fade Out?
-        			game.setScreen(new LevelSelectScreen(game));
+        			game.startFadeOut(new LevelSelectScreen(game));
         		}
         	}
         }
-        
+      //FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		//beginCutscene = true;
+        		}
+        }
+        if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		game.setScreen(game.toFollow);
+        	}
+        }
         game.batch.end();
         
-        //FOR TESTING CUTSCENE.JAVA
+        //FOR TESTING recipescreen.JAVA
         	//if(Gdx.input.isTouched())
-        	//game.setScreen(new Cutscene(game, Gdx.files.internal("loremIpsumScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
+        	//game.setScreen(new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0}));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), this));
-        	
+        	//game.setScreen(new LevelTwoEndScreen(game, -149));
         	//FOR TESTING LEVEL TWO
         	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
         	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0})));
@@ -123,7 +138,9 @@ public class TitleScreen implements Screen{
         //game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoStand(game, new int[] {0, 0, 0, 1, 9, 0})));
 	
         if(Gdx.input.isTouched() && openingScreen)
-    		openingScreen = false;
+    		{openingScreen = false;
+    			
+    		}
 	}
 	public void pause()
 	 {
