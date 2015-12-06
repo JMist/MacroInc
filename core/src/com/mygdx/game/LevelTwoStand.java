@@ -27,7 +27,7 @@ public class LevelTwoStand implements Screen{
 	
 	//Copied from Cutscene.java
 	private static final float		FRAME_RATE = .12f;
-	private static final float		TEXT_DELAY = .03f;
+	private static final float		TEXT_DELAY = MacroInc.TEXT_DELAY;
 	private static final float		POST_DIALOG_DELAY = 2f;
     float keyPressed;
     Animation                       faceAnimation;          // #3
@@ -109,11 +109,11 @@ public class LevelTwoStand implements Screen{
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
 		background = new Texture(Gdx.files.internal("leveltwostandbackground.png"));
 		
-		//START OF LEVEL DIALOG
-		if(recipe[4] <14)
-		addDialog("Alright! Here they come! Get selling!");
-		else
-			addDialog("Here they come! Get selling, comrade!");
+		
+		//MOVE THIS TO AFTER THE FADE IS DONE
+		
+		
+		//game.startFadeIn();
 	}
 	
 	//DIALOG AND TEXT
@@ -153,7 +153,7 @@ public class LevelTwoStand implements Screen{
 			//Kill the upper text if you have to.
 			if(lineNumber > 2)
 			{
-				currentText = currentText.substring(CHARS_PER_LINE + 4, currentText.length());
+				currentText = currentText.substring(CHARS_PER_LINE + 3, currentText.length());
 			}
 		}
 		//if the text is over
@@ -220,7 +220,7 @@ public class LevelTwoStand implements Screen{
 	//RENDERING
 	public void render(float delta)
 	{	
-		if(peepsSpawned == 0 && !spawning && runningTime > 3)
+		if(peepsSpawned == 0 && !spawning && runningTime > 5)
 			spawning = true;
 		//Clears screen to black
 		Gdx.gl.glClearColor(1, 1, 1, 0);
@@ -310,13 +310,9 @@ public class LevelTwoStand implements Screen{
         
         	if(done)
         	{
-        		//Fade out?
-        		if(recipe[4] <= 14)
-        		{int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
-        		game.setScreen(new LevelTwoRecipeScreen(game, newR));
-        		}
-        		else
-        		game.setScreen(new TitleScreen(game));
+        		if(!game.isFadeOut)
+        		game.startFadeOut();
+        		
         	}
         //DRAW ACHIEVEMENT
         if(recipe[0]==0 && recipe[1] == 0 && recipe[3] > 0)
@@ -328,6 +324,35 @@ public class LevelTwoStand implements Screen{
         	else if( runningTime < 5)
         		game.batch.draw(t, 0, 380 + (runningTime-4)*100);
         	}
+      //FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		//START OF LEVEL DIALOG
+        		if(recipe[4] <14)
+        		addDialog("Alright! Here they come! Get selling!");
+        		else
+        			addDialog("Here they come! Get selling, comrade!");
+        		
+        	}
+        }
+        if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		if(recipe[4] <= 14)
+        		{int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
+        		game.setScreen(new LevelTwoRecipeScreen(game, newR));
+        		}
+        		else
+        		{
+        			if(Integer.parseInt(game.save.readString()) < 2)
+        			game.save.writeString("2", false);
+        			game.setScreen(new LevelTwoEndScreen(game, profit));       		
+        		}
+        	}
+        }
         //BATCH ENDS
         game.batch.end();
         
@@ -414,6 +439,6 @@ public class LevelTwoStand implements Screen{
 		
 	 }
 	 public void show(){
-		 
+		 game.startFadeIn();
 	 }
 }
