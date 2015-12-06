@@ -133,6 +133,7 @@ public class LevelTwoRecipeScreen implements Screen{
 			{int[] newRecipe = {19, 20, 18, 2, 15, r[5]};
 		recipe = newRecipe;}
 		
+		//MOVE THIS TO AFTER FADE IN
 		//FIRST TRY ADD DIALOG
 		if(recipe[4] == 9)
 			addDialog("Try to shoot for a tasty recipe, and low prices.");
@@ -144,7 +145,8 @@ public class LevelTwoRecipeScreen implements Screen{
 			addDialog("Welcome to the Command System, comrade. The Central Board has created a recipe for you.");
 		else if(recipe[4] == 15)
 			addDialog("Welcome to the well-functioning, never-failing Command System, comrade. The Central Board has created a flawless, unbeatable recipe for you.");
-			
+		
+		game.startFadeIn();
 	}
 	
 	//TEXT CREATION AND DIALOG

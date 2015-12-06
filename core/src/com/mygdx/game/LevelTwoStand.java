@@ -109,11 +109,16 @@ public class LevelTwoStand implements Screen{
 		textContainer = new Texture(Gdx.files.internal("textpanel.png"));
 		background = new Texture(Gdx.files.internal("leveltwostandbackground.png"));
 		
+		
+		//MOVE THIS TO AFTER THE FADE IS DONE
+		
 		//START OF LEVEL DIALOG
 		if(recipe[4] <14)
 		addDialog("Alright! Here they come! Get selling!");
 		else
 			addDialog("Here they come! Get selling, comrade!");
+		
+		game.startFadeIn();
 	}
 	
 	//DIALOG AND TEXT

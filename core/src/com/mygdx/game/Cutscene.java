@@ -73,19 +73,17 @@ public class Cutscene implements Screen{
         setBackground("bg1.png");
         System.out.println(script.readString());
         
+        game.startFadeIn();
 	}
     
-	public void fadeOut()
-	{
-		//To be implemented later
-	}
+	
     public void read()
     {	
     	//Check for end to cutscene  	
     	if(read.hasNext("/terminate"))
     	{
     		System.out.println("Cutscene terminated");
-    		fadeOut();
+    		
     		
     		game.setScreen(toFollow);
     	}

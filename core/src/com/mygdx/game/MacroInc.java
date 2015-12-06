@@ -21,6 +21,9 @@ public class MacroInc extends Game {
 	FileHandle save;
 	final static float[] FONT_COLOR = {.3f, .3f, .3f};
 	
+	float fadeState;
+	boolean isFadeOut;
+	boolean isFadeIn;
 	
 	public Vector2 screenTransform(Vector2 v)
 	{
@@ -51,5 +54,57 @@ public class MacroInc extends Game {
 	public void dispose() {
 		font.dispose();
 		batch.dispose();
+	}
+	
+	//Only works during batch
+	//@var f = time into the fade out.
+	//returns true if finished.
+	public boolean fadeOut(float f)
+	{
+		
+		if(batch.isDrawing())
+		{
+			
+			if(f < 2)
+			batch.draw(new Texture(Gdx.files.internal("fade.png")),(int)( -1000+500*f), 0);
+			else
+			{
+				batch.draw(new Texture(Gdx.files.internal("fade.png")),(int)( -1000+500*f), 0);			
+				isFadeOut = false;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean fadeIn(float f)
+	{
+		
+		if(batch.isDrawing())
+		{
+			
+			if(f < 2)
+			batch.draw(new Texture(Gdx.files.internal("fade.png")),(int)(500*f), 0);
+			else
+			{
+				batch.draw(new Texture(Gdx.files.internal("fade.png")),(int)(500*f), 0);			
+				isFadeIn = false;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void startFadeOut()
+	{	
+		fadeState = 0;
+		isFadeOut = true;
+		//play sound?
+	}
+	
+	public void startFadeIn()
+	{	fadeState = 0;
+		isFadeIn = true;
+		//Play sound?
 	}
 }
