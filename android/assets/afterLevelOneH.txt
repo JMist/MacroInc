@@ -1,5 +1,7 @@
 /bg guruCave.png
 /f playerFace.png
+/t
+/e
 /t Player:
 What in the world was that?
 /e

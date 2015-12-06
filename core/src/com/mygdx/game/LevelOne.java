@@ -78,6 +78,7 @@ public class LevelOne {
 
 		batch.begin();
 		batch.draw(pizzaBackground, 0, 0);
+		
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
 			batch.draw(pizzaImage, pizza.x, pizza.y);
@@ -135,8 +136,7 @@ public class LevelOne {
 	private boolean isReady() {
 		// TODO Auto-generated method stub
 		currentTime = TimeUtils.timeSinceNanos(startTime);
-		return ((TimeUtils.nanoTime() - lastSpawnTime)
-				/ (MathUtils.log(16, currentTime)) > 100000000);
+		return ((TimeUtils.nanoTime() - lastSpawnTime) / (MathUtils.log(16, currentTime)) > 100000000);
 
 	}
 
