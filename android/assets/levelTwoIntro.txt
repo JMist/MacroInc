@@ -1,0 +1,59 @@
+/bg guruCave.png
+/f guruFace.png
+/t
+Guru: Alright Joe. In the last lesson, you experienced scarcity. Our economy just doesn't have enough resources for our "unlimited wants".
+/e
+/t
+So we need some way to determine how much our scarce resources are worth to you and I!
+/e
+/t
+Our economy's desire, or "Demand", for a resource our product is determined by a few factors.
+/e
+/t
+First, if the price is high, I'll generally buy less of the product. If the price is low, I'll generally buy more of the product.
+/e
+/t
+This occurs for one main reason. Imagine the following:
+/e
+/t
+You're back in our pizza car from our last project. Both back wheels pop off under the weight of the pizza.
+/e
+/t
+On the side of the road, you see a man selling tires for $300 each. If you can afford it, maybe you buy two to replace the popped ones.
+/e
+/t
+However, would a third tire be worth paying $300 for? Probably not. 
+/e
+/t
+But if the price was $100 per tire, perhaps you'd buy three tires, just in case another pops.
+/e
+/t
+This illustrates the powerful Economic concept of Diminishing Marginal Utility:
+/e
+/t
+Each tire after the second is worth substantially less than the last.
+/e
+/t
+Other things will affect your demand for the product, such as your income, your tastes, or the price of some reasonable substitute for the product.
+/e
+/t
+(Cheap wooden wheels instead of rubber Pizza Hot-Rod Tires, for example)
+/e
+/f playerFace.png
+/th
+Joe: (That's a lot to remember!)
+/e
+/f guruFace.png
+/t
+Guru: That's a lot to remember! If you ever need to review this, just head back to the Wall of Wisdom.
+/e
+/t
+So, now that you're informed about consumer demand, let's head into the field. Today, you'll be selling lemonade by the local "Lemon-8" track.
+/e
+/t
+I'm sure we'll find some "teachable moments" along the way.
+/e
+/t
+Let's get your lemonade recipe hammered out, then we'll hit the field. I'll swing out in the Pizza car for the ingredients each hour. You handle sales. Let's go!
+/e
+/terminate

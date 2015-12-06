@@ -340,14 +340,21 @@ public class LevelTwoStand implements Screen{
         if(game.isFadeOut)
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
-        	{
+        	{	if(recipe[4] == 12)
+        		{
+        		int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
+        		game.setScreen(new Cutscene(game, Gdx.files.internal("levelTwoIntermission.txt"), new LevelTwoRecipeScreen(game, newR)));
+        		
+        		}
         		if(recipe[4] <= 14)
         		{int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
         		game.setScreen(new LevelTwoRecipeScreen(game, newR));
         		}
         		else
         		{
+        			
         			if(Integer.parseInt(game.save.readString()) < 2)
+        				if(profit > 0)
         			game.save.writeString("2", false);
         			game.setScreen(new LevelTwoEndScreen(game, profit));       		
         		}

@@ -87,7 +87,7 @@ public class TitleScreen implements Screen{
         			if(text.equals("0"))
         			{
         				//Fade Out?
-        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
+        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new Cutscene(game, Gdx.files.internal("sceneTwo.txt"), new LevelSelectScreen(game))));
         			}
         			else
         			{
@@ -97,7 +97,7 @@ public class TitleScreen implements Screen{
         				}
         				else
         				{f.writeString("0", false);
-        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new LevelSelectScreen(game)));
+        				game.startFadeOut(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), new Cutscene(game, Gdx.files.internal("sceneTwo.txt"), new LevelSelectScreen(game))));
         				}
         			}
         		}

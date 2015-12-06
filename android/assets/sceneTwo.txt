@@ -1,0 +1,41 @@
+/bg cave.png
+/f guruFace.png
+/t
+/e
+/t
+Guru: Hello! I suppose you're Mr. Joe Q. Public?
+/e
+/f playerFace.png
+/t
+Joe: Yeah, that's me.
+/e
+/f guruFace.png
+/t
+Guru: The Economics rookie?
+/e
+/f playerFace.png
+/th
+Joe: (Ouch.)
+/e
+/t
+Yes, sir.
+/e
+/f guruFace.png
+/t
+Guru: Nice to meet you! I'm the Guru. Did you bring the money?
+/e
+/f playerFace.png
+/t
+Joe: Yes, sir.
+/e
+/f guruFace.png
+/t
+Guru: Terrific! I'm a big fan of the newfangled "project based learning". I'll be using that money to finance a few business ventures we'll embark on together.
+/e
+/t
+Ideally, you'll earn back the $500 fairly quickly. Any profit you make is yours to keep, as I'm sure Prof. Nero told you.
+/e
+/t
+But for now, come inside. My corporate assistants have prepared a room for you in the employees' quarters. Get some sleep. Tomorrow, we start your training.
+/e
+/terminate

@@ -1,6 +1,6 @@
 /bg bg2.png /f sampleface.png 
-/f sampleface2.png
+/f neroFace.png
 /t This is the text. /e
-/bg bg1.png /f sampleface3.png
+/bg bg1.png /f playerFace.png
 /bg bg2.png /f sampleface.png
 /terminate

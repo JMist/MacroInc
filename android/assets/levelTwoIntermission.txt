@@ -1,0 +1,36 @@
+/bg guruCave.png
+/f guruFace.png
+/t
+Guru: For the last four hours, you competed with another seller for customers.
+/e
+/t
+A true competitive market would look a little different from what you just experienced. 
+/e
+/t
+Competitive markets contain hundreds of sellers, and thousands of buyers. Also, sellers are "price takers": the consumers, with their purchases, determine prices.
+/e
+/t
+Also, all these sellers must be selling roughly the same product. You and your competitor are selling slightly different lemonade.
+/e
+/t
+There is another, darker type of market.
+/e
+
+/bg commandSystem.png
+
+/t
+The Command System.
+/e
+/t
+All market, pricing, and production decisions are made by a central board.
+/e
+/t
+This can work well in some instances; usually it leads to terrific failure.
+/e
+/t
+Most times, one central board simply cannot process the wants and needs of an entire economy.
+/e
+/t
+Anyway, for the next two hours, you'll be selling from within a Command System. I'll function as the central board. Good luck with your recipe!
+/e
+/terminate
