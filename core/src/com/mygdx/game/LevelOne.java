@@ -49,8 +49,8 @@ public class LevelOne {
 
 		batch = new SpriteBatch();
 		car = new Rectangle();
-		car.x = 50;
-		car.y = 60;
+		car.x = 0;
+		car.y = 30;
 		car.width = 100;
 		// Width is mainly a placeholder at the moment, would hopefully have it
 		// line up with the actual model of the
@@ -77,6 +77,7 @@ public class LevelOne {
 		camera.update();
 
 		batch.begin();
+		batch.draw(pizzaBackground, 0, 0);
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
 			batch.draw(pizzaImage, pizza.x, pizza.y);
@@ -112,7 +113,7 @@ public class LevelOne {
 			if (pizzaMeter<=0){
 				//End game. No idea what the code is, does the previous cutscene call the game object or something?
 			}
-			if (pizza.x + 50 < 0)
+			if (pizza.x + 60 < 0)
 				iter.remove();
 			if (pizza.overlaps(car)) {
 				pizzaCollect.play();
@@ -126,6 +127,7 @@ public class LevelOne {
 
 				// Removes pizza and plays sound effect.
 			}
+			//Yo dog I have to add some code here to draw the pizzaMeter number at the top of the screen. Tentatively, game.font.draw(game.batch, "Pizza Meter" +pizzaMeter, 900,300);)
 		}
 
 	}
@@ -140,7 +142,7 @@ public class LevelOne {
 
 	private void spawnPizza() {
 		Rectangle pizza = new Rectangle();
-		pizza.x = 950;
+		pizza.x = 940;
 		// Not sure if this is right, but I think 800 might bug something out.
 
 		pizza.y = (MathUtils.random(1, 3) * 120);
