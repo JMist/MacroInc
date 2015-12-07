@@ -16,18 +16,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class LevelOne implements Screen{
+public class LevelOneH implements Screen{
 	Texture carImage;
 	Texture pizzaImage;
 	Texture pizzaBackground;
 	Sound pizzaCollect;
 	int pizzaScore;
-	double pizzaMeter;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	Rectangle car;
 	private Array<Rectangle> pizzas;
-	int pizzaDisplay;
 	final MacroInc game;
 	/*
 	 * Creating variables for the car, pizza collection, the background, and
@@ -42,7 +40,7 @@ public class LevelOne implements Screen{
 
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
-	public LevelOne(final MacroInc gam){
+	public LevelOneH(final MacroInc gam){
 		game=gam;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 480);
@@ -60,12 +58,10 @@ public class LevelOne implements Screen{
 		// left for the top of the stage, so the car's hitbox occupies the
 		// entire lane.
 		startTime = TimeUtils.nanoTime();
-		pizzaImage = new Texture(Gdx.files.internal("pizza.png"));
+		pizzaImage = new Texture(Gdx.files.internal("smiley.png"));
 		carImage = new Texture(Gdx.files.internal("pizzaCar.png"));
 		pizzaBackground = new Texture(Gdx.files.internal("pizzaBackground.png"));
-		pizzaCollect=Gdx.audio.newSound(Gdx.files.internal("pizzaCollect.wav"));
-		// Getting textures.
-		pizzaMeter=100;
+		pizzaCollect=Gdx.audio.newSound(Gdx.files.internal("laugh.wav"));
 		pizzas = new Array<Rectangle>();
 		spawnPizza();
 		// Makes the pizza array and puts some pizzas in there? Not too sure on
@@ -81,7 +77,6 @@ public class LevelOne implements Screen{
 		batch.begin();
 		game.batch.draw(pizzaBackground, 0, 0);
 		game.font.draw(batch, "Score:"+pizzaScore, 20, 440);
-		game.font.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
 		
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
@@ -119,22 +114,16 @@ public class LevelOne implements Screen{
 				pizzaCollect.play();
 				iter.remove();
 				pizzaScore++;
-				if (pizzaMeter > 95) {
-					pizzaMeter = 100;
-				} else {
-					pizzaMeter += 5;
-				}
+				
 
 				// Removes pizza and plays sound effect.
 			}
 			
 			
 		}
-		pizzaMeter-=(.1);
-		pizzaDisplay=(int)pizzaMeter;
 		// Pizza moving across the screen and pizzaMeter going down probably
-		if (pizzaMeter<=0){
-			//End game. No idea what the code is, does the previous cutscene call the game object or something?
+		if (TimeUtils.nanosToMillis(currentTime)>15000){
+			//End
 		}
 
 	}
@@ -142,7 +131,7 @@ public class LevelOne implements Screen{
 	private boolean isReady() {
 		// TODO Auto-generated method stub
 		currentTime = TimeUtils.timeSinceNanos(startTime);
-		return ((TimeUtils.nanoTime() - lastSpawnTime) / Math.pow(currentTime, .127) > 50000000);
+		return ((TimeUtils.nanoTime() - lastSpawnTime)> 60000000);
 
 	}
 

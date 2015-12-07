@@ -34,6 +34,7 @@ public class TitleScreen implements Screen{
 	public void render(float delta)
 	{	
 		//Clears screen to black
+		game.setScreen(new LevelOne(game));
 		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         

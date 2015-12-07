@@ -1,17 +1,17 @@
 /bg guruCave.png
 /f guruFace.png
 /t Guru:
-Welcome to my cave. Over the next week, you'll be learning all about what makes an economy run.
+Over the next week, you'll be learning all about what makes an economy run.
 /e
 /f playerFace.png
-/t Name:
+/t Player:
 Quick question, what exactly is an economy?
 /e
 /f guruFace.png
 /t Guru:
 Good question, my boy.
 /e
-/t Guru:
+/t 
 An economy is a complicated structure of how people get the most from their desires by using limited resources.
 /e
 /f playerFace.png
@@ -20,5 +20,8 @@ An economy is a complicated structure of how people get the most from their desi
 /e
 /f guruFace.png
 /t Guru:
-I know this seems complicated, maybe a little joyride will enlighten you.
+I know this seems a bit complicated at first, maybe a little joy ride will enlighten you.
+/e
+/t
+By the way, use the arrow keys to move and try to collect as much pizza as possible!
 /e

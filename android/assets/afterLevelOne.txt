@@ -44,7 +44,7 @@ Entrepre-what?
 /t Guru:
 Yeah it's a mouthful. Anyway, entrepreneurial ability is the special labor that someone like Papa John does.
 /e
-/bg papaJohn.jpg
+/bg papaJohn.png
 /t
 Papa John does a few very important things that are essential to producing a good.
 /e
