@@ -124,6 +124,7 @@ public class TitleScreen implements Screen{
         	}
         }
         game.batch.end();
+        //This animation code is pretty great.
         
         //FOR TESTING recipescreen.JAVA
         	//if(Gdx.input.isTouched())

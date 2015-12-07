@@ -1,0 +1,141 @@
+/bg guruCave.png
+/f playerFace.png
+/t Player:
+That was pretty fun, but why did the car run out of gas?
+/e
+/f guruFace.png
+/t Guru:
+Ah, it's because there wasn't enough pizza to keep the car going!
+/e
+/f playerFace.png
+/th Player:
+(But why did we run out of pizza?)
+/e
+/f guruFace.png
+/t Guru:
+I know what you're thinking, why did we run out of pizza?
+/e
+/t
+Well, the reason for that is simple, but first let's get back to what an economy is.
+/e
+/t
+It's getting the most, be it pizza, games, or phones, out of the resources at hand.
+/e
+/t
+Resources are what goes into making different products. Economists use four different categories to define resources.
+/e
+/t
+The first category is land. Land is all the natural things that go into a product, like the flour and cheese in pizza.
+/e
+/t
+The next category is labor. This is whatever effort goes into making a product, like the chef that makes and cooks the pizza.
+/e
+/t
+After labor comes capital. These are whatever products help to make another, like the pizza oven.
+/e
+/t
+And last, but not least, is entrepreneurial ability.
+/e
+/f playerFace.png
+/t Player:
+Entrepre-what?
+/e
+/f guruFace.png
+/t Guru:
+Yeah it's a mouthful. Anyway, entrepreneurial ability is the special labor that someone like Papa John does.
+/e
+/bg papaJohn.png
+/t
+Papa John does a few very important things that are essential to producing a good.
+/e
+/t
+He successfully combines the other resources, labor, capital, and land, that is, to produce the final product.
+/e
+/t
+Papa John makes the main decisions, too, like whether to deliver, and comes up with new brilliant ideas, like the Fritos Chili Pizza.
+/e
+/t
+Finally, Papa John takes all the risks of starting a new pizza business. His company might not be successful and he is the one who would lose money if it failed.
+/e
+/bg guruCave.png
+/f playerFace.png
+/t Player:
+Ok, so why exactly did we run out of pizza? Is it because there weren't enough resources left to make more?
+/e
+/f guruFace.png
+/t Guru:
+Yes, you're exactly right. We have unlimited desires, so we want INFINITE PIZZA! 
+/e
+/t
+However, the amount of resources we have are not infinite, so we can only make so much pizza. This concept is known as scarcity.
+/e
+/t
+Scarcity is unlimited wants, but limited resources, got it?
+/e
+/f playerFace.png
+/t Player:
+Alright, I got it, but how can we actually measure how much we make?
+/e
+/f guruFace.png
+/t Guru:
+Do you remember the score at the top? It went up each time you collected a pizza.
+/e
+/f playerFace.png
+/t Player:
+Oh, I think I do remember that, it went up by 1 each time right?
+/e 
+/f guruFace.png
+/t Guru:
+That's correct. In the ride, each pizza had a value of 1.
+/e
+/t
+We can measure the total output of an economy using what's known as the GDP.
+/e
+/t
+GDP, or gross domestic product, is the total value of all goods and services produced within a country during a year.
+/e
+/t
+This value is represented by a $ amount, but GDP isn't based on prices, it's based on the actual value of goods.
+/e
+/f playerFace.png
+/t Player:
+I think I understand. I know the price of gas is a lot cheaper here than it is back home.
+/e
+/t
+But if I were to try to measure it, than I would be saying that back home we buy a lot more gas than we do here, just because it's more expensive.
+/e
+/t
+But that's not really true, is it? The GDP is based on the amount and the value right?
+/e
+/f guruFace.png
+/t Guru:
+Essentially, yes. That's why we have to make sure that we account for differences in prices when calculating GDP.
+/e
+/t
+Or our numbers become a little wacky.
+/e
+/f playerFace.png
+/t Player:
+But doesn't that give a pretty unfair advantage to really big countries, because they can make so much more?
+/e
+/f guruFace.png
+/t Guru:
+You're right that it does. There are other measures of the economic strength of a country, however.
+/e
+/t
+GDP per capita is based on the population as well as the GDP, so it doesn't really favor big countries.
+/e
+/t
+For example, Qatar has the highest GDP per capita, with only about 2 million people.
+/e
+/f playerFace.png
+/t Player:
+I've heard that Qatar doesn't treat some people very well though.
+/e
+/t 
+Shouldn't we also think about the quality of life in a country?
+/e
+/f guruFace.png
+/t Guru:
+There are measures for that too, of course! Let's go on another ride!
+/e
