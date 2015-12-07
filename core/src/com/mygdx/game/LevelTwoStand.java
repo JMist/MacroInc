@@ -86,7 +86,7 @@ public class LevelTwoStand implements Screen{
 		
 		//Prepare the guru's face for dialog boxes
 		faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
-		faceSheet = new Texture(Gdx.files.internal("sampleface.png"));
+		faceSheet = new Texture(Gdx.files.internal("guruFace.png"));
 		TextureRegion[][] tmp = TextureRegion.split(faceSheet, faceSheet.getWidth()/FRAME_COLS, faceSheet.getHeight()/FRAME_ROWS);
 		int index = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
@@ -334,19 +334,21 @@ public class LevelTwoStand implements Screen{
         		addDialog("Alright! Here they come! Get selling!");
         		else
         			addDialog("Here they come! Get selling, comrade!");
+        		dialogCompletedTime = 15;
         		
         	}
         }
         if(game.isFadeOut)
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
-        	{	if(recipe[4] == 12)
+        	{	
+        		if(recipe[4] == 12)
         		{
         		int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
         		game.setScreen(new Cutscene(game, Gdx.files.internal("levelTwoIntermission.txt"), new LevelTwoRecipeScreen(game, newR)));
         		
         		}
-        		if(recipe[4] <= 14)
+        		else if(recipe[4] <= 14)
         		{int[] newR = {recipe[0], recipe[1], recipe[2], recipe[3], recipe[4] + 1, profit};
         		game.setScreen(new LevelTwoRecipeScreen(game, newR));
         		}

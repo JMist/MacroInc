@@ -7,6 +7,7 @@ Guru: Well, you seriously failed this exercise.
 /t
 Either your prices were too high to be attractive, too low for any profit, or your lemonade recipe was horrific. Did you even think to Google a recipe?
 /e
+/bg commandSystem.png
 /f playerFace.png
 /t
 Joe: Come on! I lost like $45 in the last hour with your garbage recipe!
@@ -26,6 +27,7 @@ Guru: It's possible that even the powers of a free market system could not have 
 /t
 But it is clear, from failure after failure of command systems, that a free market is a better economic system, as you experienced yourself.
 /e
+/bg guruCave.png
 /t
 However, a perfectly free market can destroy an economy as well. This is why our economy has protections such as a minimum wage to prevent crass exploitation, and the Federal Reserve to control inflation.
 /e

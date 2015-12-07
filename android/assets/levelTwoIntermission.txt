@@ -1,7 +1,7 @@
 /bg guruCave.png
 /f guruFace.png
 /t
-Guru: For the last four hours, you competed with another seller for customers.
+Guru: For the last three hours, you competed with another seller for customers.
 /e
 /t
 A true competitive market would look a little different from what you just experienced. 

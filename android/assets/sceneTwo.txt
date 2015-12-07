@@ -1,7 +1,6 @@
 /bg cave.png
 /f guruFace.png
-/t
-/e
+
 /t
 Guru: Hello! I suppose you're Mr. Joe Q. Public?
 /e

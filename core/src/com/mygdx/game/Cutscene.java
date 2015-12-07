@@ -170,7 +170,7 @@ public class Cutscene implements Screen{
     {	
 		if(currentText.length() == CHARS_PER_LINE || currentText.length() == CHARS_PER_LINE - 1 || currentText.length() == CHARS_PER_LINE + 1)
 		{
-			if(currentText.length() > 0)
+			if((int)(f/TEXT_DELAY) <= currentText.length())
 		    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY));
 		}
 		else{

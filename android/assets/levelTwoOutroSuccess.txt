@@ -4,6 +4,7 @@
 /t
 Guru: You fared well today!
 /e
+/bg commandSystem.png
 /t
 How did you like the Command System?
 /e
@@ -26,6 +27,7 @@ Guru: It's possible that even the powers of a free market system could not have 
 /t
 But it is clear, from failure after failure of command systems, that a free market is a better economic system, as you experienced yourself.
 /e
+/bg guruCave.png
 /t
 However, a perfectly free market can destroy an economy as well. This is why our economy has protections such as a minimum wage to prevent crass exploitation, and the Federal Reserve to control inflation.
 /e

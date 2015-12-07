@@ -42,13 +42,13 @@ public class TitleScreen implements Screen{
 		newGameButton = new Button(game, new Rectangle(), newGameButtonImg, newGameButtonImg);
 		continueButton = new Button(game, new Rectangle(), continueButtonImg, continueButtonImg);
 		
-		newGameButton.setX(200);
-		newGameButton.setY(50);
+		newGameButton.setX(20);
+		newGameButton.setY(20);
 		newGameButton.setWidth(200);
 		newGameButton.setHeight(80);
 		
-		continueButton.setX(600);
-		continueButton.setY(50);
+		continueButton.setX(230);
+		continueButton.setY(20);
 		continueButton.setWidth(200);
 		continueButton.setHeight(80);
 	}
@@ -62,9 +62,10 @@ public class TitleScreen implements Screen{
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        game.batch.draw(background, 0, 0);
         if(openingScreen)
         {
-        game.batch.draw(background, 0, 0);
+        
         if(TimeUtils.nanoTime()/1000000000 % 2 == 0)
         	game.font.draw(game.batch, "Click to Start", 400, 240);
         }
@@ -127,7 +128,7 @@ public class TitleScreen implements Screen{
         
         //FOR TESTING recipescreen.JAVA
         	//if(Gdx.input.isTouched())
-        	//game.setScreen(new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 9, 0}));
+        	//game.setScreen(new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 12, 0}));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), this));
         	//game.setScreen(new LevelTwoEndScreen(game, -149));

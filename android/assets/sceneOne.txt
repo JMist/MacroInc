@@ -1,7 +1,6 @@
 /bg testFail.png
 /f neroFace.png
-/t
-/e
+
 /t Prof Nero: 
 Hello, Joe. I've got some bad news. 
 /e
