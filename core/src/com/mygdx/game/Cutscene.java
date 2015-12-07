@@ -280,7 +280,7 @@ public class Cutscene implements Screen{
         		beginCutscene = true;
         		}
         }
-        if(game.isFadeOut)
+        else if(game.isFadeOut)
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{

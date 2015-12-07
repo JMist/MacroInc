@@ -74,7 +74,7 @@ public class TitleScreen implements Screen{
         	FileHandle f = Gdx.files.local("playerdata.txt");
     		String text = f.readString();
         	newGameButton.draw();
-        	if(!f.readString().equals("0"));
+        	if(!f.readString().equals("0") && !f.readString().equals(""));
         	continueButton.draw();
         	if(Gdx.input.justTouched())
         	{	

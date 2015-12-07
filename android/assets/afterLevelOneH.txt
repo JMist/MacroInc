@@ -1,6 +1,6 @@
 /bg guruCave.png
 /f playerFace.png
-/t Player:
+/t Joe:
 What in the world was that?
 /e
 /f guruFace.png
@@ -11,7 +11,7 @@ We were collecting happiness this time.
 You asked about measurements that include quality of life, and in those we try to measure the happiness of a country to determine its economic well-being.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 ...
 /e
 /t
@@ -34,7 +34,7 @@ Things like the UN's Human Development Index, the HDI, look at the health, educa
 All of these things are what produce a happy population, so we can mostly determine how happy a country's people are.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 Wow, there are a lot of measures about the economy of a country! How do we know which is the best?
 /e
 /f guruFace.png
@@ -45,7 +45,7 @@ Good question. It all depends on the context.
 If we wanted to know about only the strength of a country's economy, what would we look at?
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 The GDP right?
 /e
 /f guruFace.png
@@ -53,7 +53,7 @@ The GDP right?
 Yup, and if we wanted to know how efficient the country was being, that is producing the most with the fewest resources, what could we look at?
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 The GDP per capita! Because that factors in the amount of labor a country has.
 /e
 /f guruFace.png
@@ -61,7 +61,7 @@ The GDP per capita! Because that factors in the amount of labor a country has.
 Exactly, and to know how well-off a country is, and whether it's a good idea to move there?
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 Obviously the HDI, as it looks at the health, education, and quality of life in a country.
 /e
 /f guruFace.png
@@ -74,3 +74,4 @@ I'm proud of your progress.
 /t
 Now we're going to learn about different types of economies.
 /e
+/terminate

@@ -39,7 +39,7 @@ public class LevelOne implements Screen{
 	private long lastSpawnTime;
 	private long startTime;
 	private long currentTime;
-
+int goon = 0;
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOne(final MacroInc gam){
@@ -67,7 +67,7 @@ public class LevelOne implements Screen{
 		// Getting textures.
 		pizzaMeter=100;
 		pizzas = new Array<Rectangle>();
-		spawnPizza();
+		
 		// Makes the pizza array and puts some pizzas in there? Not too sure on
 		// how it actually gets run with the iterator and all that.
 	}
@@ -80,14 +80,31 @@ public class LevelOne implements Screen{
 
 		batch.begin();
 		game.batch.draw(pizzaBackground, 0, 0);
-		game.font.draw(batch, "Score:"+pizzaScore, 20, 440);
-		game.font.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
+		game.dialogFont.draw(batch, "Score:"+pizzaScore, 20, 440);
+		game.dialogFont.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
 		
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
 			batch.draw(pizzaImage, pizza.x, pizza.y);
 
 		}
+		
+		//FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		spawnPizza();
+        		}
+        }
+        else if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{
+        		game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOne.txt"), new LevelOneH(game)));
+        	}
+        }
+        //game.batch.end();
 		batch.end();
 		// I barely have a clue what the render method even does, just
 		// copy-pasted it.
@@ -133,8 +150,10 @@ public class LevelOne implements Screen{
 		pizzaMeter-=(.1);
 		pizzaDisplay=(int)pizzaMeter;
 		// Pizza moving across the screen and pizzaMeter going down probably
-		if (pizzaMeter<=0){
-			//End game. No idea what the code is, does the previous cutscene call the game object or something?
+		if (pizzaMeter<=0 + goon){
+			goon += 40;
+			if(!game.isFadeOut)//End game. No idea what the code is, does the previous cutscene call the game object or something?
+			game.startFadeOut();
 		}
 
 	}
@@ -186,7 +205,7 @@ public class LevelOne implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+		game.startFadeIn();
 	}
 
 

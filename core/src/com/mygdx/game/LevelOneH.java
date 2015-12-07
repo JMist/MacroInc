@@ -38,6 +38,8 @@ public class LevelOneH implements Screen{
 	private long startTime;
 	private long currentTime;
 
+	//JOHN'S JANKY DEBUG
+	int goon = 15000;
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOneH(final MacroInc gam){
@@ -46,6 +48,8 @@ public class LevelOneH implements Screen{
 		camera.setToOrtho(false, 1000, 480);
 		// Maybe this should be a screen?
 
+		//John's janky variable
+		
 		batch=gam.batch;
 		car = new Rectangle();
 		car.x = 0;
@@ -63,7 +67,7 @@ public class LevelOneH implements Screen{
 		pizzaBackground = new Texture(Gdx.files.internal("pizzaBackground.png"));
 		pizzaCollect=Gdx.audio.newSound(Gdx.files.internal("laugh.wav"));
 		pizzas = new Array<Rectangle>();
-		spawnPizza();
+		
 		// Makes the pizza array and puts some pizzas in there? Not too sure on
 		// how it actually gets run with the iterator and all that.
 	}
@@ -76,13 +80,31 @@ public class LevelOneH implements Screen{
 
 		batch.begin();
 		game.batch.draw(pizzaBackground, 0, 0);
-		game.font.draw(batch, "Score:"+pizzaScore, 20, 440);
+		game.dialogFont.draw(batch, "Score:"+pizzaScore, 20, 440);
 		
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
 			batch.draw(pizzaImage, pizza.x, pizza.y);
 
 		}
+		//FADE IN OR OUT
+        if(game.isFadeIn)
+        {
+        	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
+        	{
+        		spawnPizza();
+        		}
+        }
+        else if(game.isFadeOut)
+        {
+        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
+        	{	
+        		if(Integer.parseInt(game.save.readString()) < 1)
+    				//if(profit > 0)
+    			game.save.writeString("1", false);
+        		game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOneH.txt"), new LevelSelectScreen(game)));
+        	}
+        }
 		batch.end();
 		// I barely have a clue what the render method even does, just
 		// copy-pasted it.
@@ -122,8 +144,10 @@ public class LevelOneH implements Screen{
 			
 		}
 		// Pizza moving across the screen and pizzaMeter going down probably
-		if (TimeUtils.nanosToMillis(currentTime)>15000){
-			//End
+		if (TimeUtils.nanosToMillis(currentTime)>goon){
+			goon += 10000;
+			if(!game.isFadeOut)
+			game.startFadeOut();
 		}
 
 	}
@@ -175,7 +199,7 @@ public class LevelOneH implements Screen{
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+		game.startFadeIn();
 	}
 
 

@@ -1,14 +1,14 @@
 /bg guruCave.png
 /f playerFace.png
-/t Player:
-That was pretty fun, but why did the car run out of gas?
+/t 
+Joe: That was pretty fun, but why did the car run out of gas?
 /e
 /f guruFace.png
-/t Guru:
-Ah, it's because there wasn't enough pizza to keep the car going!
+/t 
+Guru: Ah, it's because there wasn't enough pizza to keep the car going!
 /e
 /f playerFace.png
-/th Player:
+/th Joe:
 (But why did we run out of pizza?)
 /e
 /f guruFace.png
@@ -59,7 +59,7 @@ Finally, Papa John takes all the risks of starting a new pizza business. His com
 /e
 /bg guruCave.png
 /f playerFace.png
-/t Player:
+/t Joe:
 Ok, so why exactly did we run out of pizza? Is it because there weren't enough resources left to make more?
 /e
 /f guruFace.png
@@ -73,7 +73,7 @@ However, the amount of resources we have are not infinite, so we can only make s
 Scarcity is unlimited wants, but limited resources, got it?
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 Alright, I got it, but how can we actually measure how much we make?
 /e
 /f guruFace.png
@@ -81,7 +81,7 @@ Alright, I got it, but how can we actually measure how much we make?
 Do you remember the score at the top? It went up each time you collected a pizza.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 Oh, I think I do remember that, it went up by 1 each time right?
 /e 
 /f guruFace.png
@@ -98,7 +98,7 @@ GDP, or gross domestic product, is the total value of all goods and services pro
 This value is represented by a $ amount, but GDP isn't based on prices, it's based on the actual value of goods.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 I think I understand. I know the price of gas is a lot cheaper here than it is back home.
 /e
 /t
@@ -115,7 +115,7 @@ Essentially, yes. That's why we have to make sure that we account for difference
 Or our numbers become a little wacky.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 But doesn't that give a pretty unfair advantage to really big countries, because they can make so much more?
 /e
 /f guruFace.png
@@ -129,7 +129,7 @@ GDP per capita is based on the population as well as the GDP, so it doesn't real
 For example, Qatar has the highest GDP per capita, with only about 2 million people.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 I've heard that Qatar doesn't treat some people very well though.
 /e
 /t 
@@ -139,3 +139,4 @@ Shouldn't we also think about the quality of life in a country?
 /t Guru:
 There are measures for that too, of course! Let's go on another ride!
 /e
+/terminate

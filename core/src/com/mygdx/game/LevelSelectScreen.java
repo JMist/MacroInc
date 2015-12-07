@@ -100,7 +100,7 @@ public class LevelSelectScreen implements Screen{
         	case 0:
         		//Fade out?
         		//Go into LevelOne cutscene?
-        		//game.setScreen(new Cutscene...)
+        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("beforeLevelOne.txt"), new LevelOne(game)));
         		break;
         	case 1:
         		//Fade out?
