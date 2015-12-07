@@ -168,7 +168,12 @@ public class Cutscene implements Screen{
     //
     public void prepText(float f)
     {	
-		
+		if(currentText.length() == CHARS_PER_LINE || currentText.length() == CHARS_PER_LINE - 1 || currentText.length() == CHARS_PER_LINE + 1)
+		{
+			if((int)(f/TEXT_DELAY) <= currentText.length())
+		    	displayText = currentText.substring(0, (int)(f/TEXT_DELAY));
+		}
+		else{
 		//if the text has finished the line
 		if(!((f/TEXT_DELAY) - (CHARS_PER_LINE + 3)*lineNumber  > currentText.length()) && currentText.length() > 0 && (int)(f/TEXT_DELAY) > CHARS_PER_LINE *lineNumber + 3*(lineNumber-1))
 		{
@@ -222,7 +227,7 @@ public class Cutscene implements Screen{
     			isDoneTalking = true;
     		}
     	}
-    		
+    }	
     }
     	
     }
@@ -308,5 +313,6 @@ public class Cutscene implements Screen{
 	 }
 	 public void show(){
 		 game.startFadeIn();
+		 read();
 	 }
 }

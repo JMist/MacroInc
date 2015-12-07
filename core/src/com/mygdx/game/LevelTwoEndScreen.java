@@ -90,7 +90,7 @@ public class LevelTwoEndScreen implements Screen{
 		        {
 		        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
 		        	{
-		        		game.setScreen(new LevelSelectScreen(game));
+		        		game.setScreen(game.toFollow);
 		        	}
 		        }
 		        
@@ -105,8 +105,11 @@ public class LevelTwoEndScreen implements Screen{
 		        	
 		        if(submitButton.getLocation().contains(touchPos))
 	        	{//Move on? setScreen(new Cutscene...
-	        		game.startFadeOut();
-	        		
+		        	if(profit > 0)
+	        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("levelTwoOutroSuccess.txt"), new LevelSelectScreen(game)));
+		        	else
+		        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("levelTwoOutroFailure.txt"), new LevelSelectScreen(game)));
+
 	        	}
 		        }
 		        

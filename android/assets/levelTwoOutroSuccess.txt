@@ -1,0 +1,37 @@
+/bg guruCave.png
+/f guruFace.png
+
+/t
+Guru: You fared well today!
+/e
+/bg commandSystem.png
+/t
+How did you like the Command System?
+/e
+/f playerFace.png
+/t
+Joe: Come on! I lost like $45 in the last hour with that garbage recipe!
+/e
+/f guruFace.png
+/t
+Guru: That's really not so bad. China lost almost 45 million people in a famine caused by poor central board leadership.
+/e
+/f playerFace.png
+/t
+That's... horrible...
+/e
+/f guruFace.png
+/t
+Guru: It's possible that even the powers of a free market system could not have prevented that famine.
+/e
+/t
+But it is clear, from failure after failure of command systems, that a free market is a better economic system, as you experienced yourself.
+/e
+/bg guruCave.png
+/t
+However, a perfectly free market can destroy an economy as well. This is why our economy has protections such as a minimum wage to prevent crass exploitation, and the Federal Reserve to control inflation.
+/e
+/t
+Let's head back. Collect your materials and put them back in the Pizza car.
+/e
+/terminate

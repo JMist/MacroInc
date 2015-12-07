@@ -105,7 +105,7 @@ public class LevelSelectScreen implements Screen{
         	case 1:
         		//Fade out?
         		//Go into LevelTwo cutscene        		
-        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("testScript.txt"), new LevelTwoRecipeScreen(game, new int[] {5, 5, 5, 5, 9, 0})));
+        		game.startFadeOut(new Cutscene(game, Gdx.files.internal("levelTwoIntro.txt"), new LevelTwoRecipeScreen(game, new int[] {5, 5, 5, 5, 9, 0})));
         		break;
         	default:
         		break;
@@ -134,7 +134,7 @@ public class LevelSelectScreen implements Screen{
     	
     	if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
         {
-        	//Fade out?
+        	
         	levelsComplete = 8;
         }
 	}

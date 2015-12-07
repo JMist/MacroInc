@@ -50,7 +50,7 @@ public class LevelScreenDialogTemplate implements Screen{
 		final int FRAME_ROWS = 1;
 		
 		faceFrames = new TextureRegion[FRAME_COLS*FRAME_ROWS];
-		faceSheet = new Texture(Gdx.files.internal("sampleface.png"));
+		faceSheet = new Texture(Gdx.files.internal("guruFace.png"));
 		TextureRegion[][] tmp = TextureRegion.split(faceSheet, faceSheet.getWidth()/FRAME_COLS, faceSheet.getHeight()/FRAME_ROWS);
 		int index = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {

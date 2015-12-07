@@ -14,7 +14,7 @@ final Texture 			outfit;
 //Time at birth of the Peep
 final long				birthTime;
 //Time it takes to walk through the a step, in seconds
-static final float 		WALK_SPEED = .02f;
+static final float 		WALK_SPEED = .06f;
 static final float		STEP_LENGTH = 80;
 //Locations of the bottom left corner of the Peep when he buys the lemonade.
 static final int		PLAYER_X = LevelTwoStand.PLAYER_STAND_X + 50;
@@ -49,8 +49,8 @@ public Peep(int d, int o)
 	
 	direction = d;
 	//TEST CODE
-	outfit = new Texture(Gdx.files.internal("samplepeep.png"));
-	/*outfit = new Texture(Gdx.files.internal("peep"+o+".png"));*/
+	//outfit = new Texture(Gdx.files.internal("samplepeep.png"));
+	outfit = new Texture(Gdx.files.internal("peep"+o+".png"));
 	birthTime = TimeUtils.nanoTime();
 	
 	TextureRegion[][] tmp = TextureRegion.split(outfit, outfit.getWidth()/STEP_FRAMES, outfit.getHeight()/3);
