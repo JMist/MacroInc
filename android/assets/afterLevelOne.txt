@@ -37,7 +37,7 @@ After labor comes capital. These are whatever products help to make another, lik
 And last, but not least, is entrepreneurial ability.
 /e
 /f playerFace.png
-/t Player:
+/t Joe:
 Entrepre-what?
 /e
 /f guruFace.png
@@ -60,7 +60,10 @@ Finally, Papa John takes all the risks of starting a new pizza business. His com
 /bg guruCave.png
 /f playerFace.png
 /t Joe:
-Ok, so why exactly did we run out of pizza? Is it because there weren't enough resources left to make more?
+Ok, so why exactly did we run out of pizza? 
+/e
+/t
+Is it because there weren't enough resources left to make more?
 /e
 /f guruFace.png
 /t Guru:

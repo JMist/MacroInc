@@ -36,10 +36,10 @@ public class LevelOneH implements Screen{
 
 	private long lastSpawnTime;
 	private long startTime;
-	private long currentTime;
+	private long currentTimeXOne;
 
-	//JOHN'S JANKY DEBUG
-	int goon = 15000;
+	
+	
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOneH(final MacroInc gam){
@@ -79,6 +79,12 @@ public class LevelOneH implements Screen{
 		camera.update();
 
 		batch.begin();
+		if (TimeUtils.nanosToMillis(currentTimeXOne)>48000){
+			
+			if(!game.isFadeOut)
+			game.startFadeOut();
+		}
+
 		game.batch.draw(pizzaBackground, 0, 0);
 		game.dialogFont.draw(batch, "Score:"+pizzaScore, 20, 440);
 		
@@ -144,17 +150,12 @@ public class LevelOneH implements Screen{
 			
 		}
 		// Pizza moving across the screen and pizzaMeter going down probably
-		if (TimeUtils.nanosToMillis(currentTime)>goon){
-			goon += 10000;
-			if(!game.isFadeOut)
-			game.startFadeOut();
-		}
-
+	
 	}
 
 	private boolean isReady() {
 		// TODO Auto-generated method stub
-		currentTime = TimeUtils.timeSinceNanos(startTime);
+		currentTimeXOne = TimeUtils.timeSinceNanos(startTime);
 		return ((TimeUtils.nanoTime() - lastSpawnTime)> 60000000);
 
 	}

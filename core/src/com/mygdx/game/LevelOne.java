@@ -39,7 +39,6 @@ public class LevelOne implements Screen{
 	private long lastSpawnTime;
 	private long startTime;
 	private long currentTime;
-int goon = 0;
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOne(final MacroInc gam){
@@ -79,6 +78,13 @@ int goon = 0;
 		camera.update();
 
 		batch.begin();
+		if (pizzaMeter<=0 ){
+			
+			
+		
+			
+			game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOne.txt"), new LevelOneH(game)));
+	}
 		game.batch.draw(pizzaBackground, 0, 0);
 		game.dialogFont.draw(batch, "Score:"+pizzaScore, 20, 440);
 		game.dialogFont.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
@@ -94,7 +100,7 @@ int goon = 0;
         {
         	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
         	{
-        		spawnPizza();
+        	spawnPizza();
         		}
         }
         else if(game.isFadeOut)
@@ -150,11 +156,7 @@ int goon = 0;
 		pizzaMeter-=(.1);
 		pizzaDisplay=(int)pizzaMeter;
 		// Pizza moving across the screen and pizzaMeter going down probably
-		if (pizzaMeter<=0 + goon){
-			goon += 40;
-			if(!game.isFadeOut)//End game. No idea what the code is, does the previous cutscene call the game object or something?
-			game.startFadeOut();
-		}
+		
 
 	}
 

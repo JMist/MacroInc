@@ -11,13 +11,13 @@ We were collecting happiness this time.
 You asked about measurements that include quality of life, and in those we try to measure the happiness of a country to determine its economic well-being.
 /e
 /f playerFace.png
-/t Joe:
+/th Joe:
 ...
 /e
-/t
+/th
 ...
 /e
-/t
+/th
 ...
 /e
 /t
@@ -66,7 +66,7 @@ Obviously the HDI, as it looks at the health, education, and quality of life in 
 /e
 /f guruFace.png
 /t Guru:
-Nice work, Player.
+Nice work, Joe.
 /e
 /t 
 I'm proud of your progress.

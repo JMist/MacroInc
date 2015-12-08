@@ -23,6 +23,9 @@ An economy is a complicated structure of how people get the most from their desi
 I know this seems a bit complicated at first, maybe a little joy ride will enlighten you.
 /e
 /t
-By the way, use the arrow keys to move and try to collect as much pizza as possible!
+Use the arrow keys to move and try to collect as much pizza as possible!
+/e
+/t
+Each slice will give you points and add some gas to the tank!
 /e
 /terminate

@@ -5,7 +5,7 @@
 Hello, Joe. I've got some bad news. 
 /e
 
-/t You failed my AP Econimics class. I am going to have to send this to all your prospective colleges.
+/t You failed my AP Economics class. I am going to have to send this to all your prospective colleges.
 /e
 /f playerFace.png
 /t Joe: 
