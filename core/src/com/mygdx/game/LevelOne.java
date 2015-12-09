@@ -29,6 +29,8 @@ public class LevelOne implements Screen{
 	private Array<Rectangle> pizzas;
 	int pizzaDisplay;
 	final MacroInc game;
+	boolean spawning;
+	boolean isFadingOut;
 	/*
 	 * Creating variables for the car, pizza collection, the background, and
 	 * controlling how the pizza's hitbox is accounted for. When I tried
@@ -42,6 +44,9 @@ public class LevelOne implements Screen{
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOne(final MacroInc gam){
+		//Boolean to control whether or not Pizza is spawning, whether or not fading out
+		spawning = false;
+		isFadingOut = false;
 		game=gam;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 480);
@@ -78,17 +83,25 @@ public class LevelOne implements Screen{
 		camera.update();
 
 		batch.begin();
-		if (pizzaMeter<=0 ){
-			
-			
+		//FOR TESTING
 		
+	
+		if ((pizzaMeter<=0 && !isFadingOut)||Gdx.input.justTouched()){
+			game.startFadeOut();
+			isFadingOut = true;
+			spawning = false;
 			
-			game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOne.txt"), new LevelOneH(game)));
+			//game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOne.txt"), new LevelOneH(game)));
 	}
 		game.batch.draw(pizzaBackground, 0, 0);
 		game.dialogFont.draw(batch, "Score:"+pizzaScore, 20, 440);
-		game.dialogFont.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
 		
+		//Stop the display when Gas hits zero
+		if(pizzaDisplay >= 0)
+		game.dialogFont.draw(batch, "Gas:"+pizzaDisplay, 900, 440);
+		else
+			game.dialogFont.draw(batch, "Gas:"+0, 900, 440);
+	
 		batch.draw(carImage, car.x, car.y);
 		for (Rectangle pizza : pizzas) {
 			batch.draw(pizzaImage, pizza.x, pizza.y);
@@ -108,7 +121,8 @@ public class LevelOne implements Screen{
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{
         		game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOne.txt"), new LevelOneH(game)));
-        	}
+        		this.dispose();
+        		}
         }
         //game.batch.end();
 		batch.end();
@@ -125,7 +139,7 @@ public class LevelOne implements Screen{
 			car.y = 81;
 		if (car.y > 281)
 			car.y = 281;
-		if (isReady()) {
+		if (isReady()&& spawning) {
 			spawnPizza();
 		}
 		// The time command to spawn pizzas. This should be modified with
@@ -168,6 +182,10 @@ public class LevelOne implements Screen{
 	}
 
 	private void spawnPizza() {
+		if(!spawning)
+		{
+			spawning = true;
+		}
 		Rectangle pizza = new Rectangle();
 		pizza.x = 940;
 		// Not sure if this is right, but I think 800 might bug something out.
@@ -200,7 +218,8 @@ public class LevelOne implements Screen{
 		pizzaImage.dispose();
 		carImage.dispose();
 		pizzaCollect.dispose();
-		batch.dispose();
+		pizzaBackground.dispose();
+		
 	}
 
 
@@ -235,6 +254,6 @@ public class LevelOne implements Screen{
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+		//this.dispose();
 	}
 }

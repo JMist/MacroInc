@@ -206,7 +206,7 @@ public class LevelScreenDialogTemplate implements Screen{
 	 }
 	 public void hide()
 	 {
-		
+		 this.dispose();
 	 }
 	 public void show(){
 		 

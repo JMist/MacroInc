@@ -94,4 +94,10 @@ public class Button {
 		{
 			return notPress;
 		}
+		
+		public void dispose()
+		{
+			press.dispose();
+			notPress.dispose();
+		}
 }

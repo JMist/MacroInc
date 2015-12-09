@@ -48,7 +48,7 @@ Joe: (That's a lot to remember!)
 /t
 Guru: That's a lot to remember! If you ever need to review this, just head back to the Wall of Wisdom.
 /e
-/bg levelstandbackground.png
+/bg leveltwostandbackground.png
 /t
 So, now that you're informed about consumer demand, let's head into the field. Today, you'll be selling lemonade by the local "Lemon-8" track.
 /e

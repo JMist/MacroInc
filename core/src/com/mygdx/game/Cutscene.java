@@ -65,7 +65,7 @@ public class Cutscene implements Screen{
 		this.game = g;
 		this.script = s;
 		this.toFollow = toFollowScreen;
-		
+		toFollow.pause();
         read = new Scanner(script.readString());
         
         //For testing:
@@ -87,6 +87,7 @@ public class Cutscene implements Screen{
     		
     		
     		game.startFadeOut();
+    		toFollow.resume();
     	}
     	//Check for background update
     	if(read.hasNext(Pattern.compile("/bg")))
@@ -284,7 +285,9 @@ public class Cutscene implements Screen{
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{
+        		
         		game.setScreen(toFollow);
+        		this.dispose();
         	}
         }
         game.batch.end();
@@ -297,7 +300,8 @@ public class Cutscene implements Screen{
 	 }
 	 public void dispose()
 	 {
-		 
+		 faceSheet.dispose();
+		 background.dispose();
 	 }
 	 public void resize(int x, int y)
 	 {
@@ -309,7 +313,7 @@ public class Cutscene implements Screen{
 	 }
 	 public void hide()
 	 {
-		 
+		 //dispose();
 	 }
 	 public void show(){
 		 game.startFadeIn();

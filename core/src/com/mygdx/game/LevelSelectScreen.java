@@ -126,7 +126,9 @@ public class LevelSelectScreen implements Screen{
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{
+        		game.toFollow.resume();
         		game.setScreen(game.toFollow);
+        		this.dispose();
         	}
         }
     	
@@ -156,7 +158,7 @@ public class LevelSelectScreen implements Screen{
 	 }
 	 public void hide()
 	 {
-		 
+		 //this.dispose();
 	 }
 	 public void show(){
 		 game.startFadeIn();

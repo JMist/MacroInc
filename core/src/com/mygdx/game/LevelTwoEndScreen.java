@@ -90,7 +90,9 @@ public class LevelTwoEndScreen implements Screen{
 		        {
 		        	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
 		        	{
+		        		game.toFollow.resume();
 		        		game.setScreen(game.toFollow);
+		        		this.dispose();
 		        	}
 		        }
 		        
@@ -121,7 +123,9 @@ public class LevelTwoEndScreen implements Screen{
 		 }
 		 public void dispose()
 		 {
-			 
+			 f.dispose();
+			 f2.dispose();
+			 background.dispose();
 		 }
 		 public void resize(int x, int y)
 		 {
@@ -133,7 +137,7 @@ public class LevelTwoEndScreen implements Screen{
 		 }
 		 public void hide()
 		 {
-			
+			 //this.dispose();
 		 }
 		 public void show(){
 			 

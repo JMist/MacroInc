@@ -117,6 +117,7 @@ public class MacroInc extends Game {
 		toFollow = t;
 		fadeState = 0;
 		isFadeOut = true;
+		t.pause();
 		//play sound?
 	}
 	
@@ -126,4 +127,10 @@ public class MacroInc extends Game {
 		isFadeIn = true;
 		//Play sound?
 	}
+	
+	/*public void setScreen(Screen t)
+	{
+		System.gc();
+		super.setScreen(t);
+	}*/
 }
