@@ -350,6 +350,7 @@ public class LevelTwoRecipeScreen implements Screen{
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{
         		game.setScreen(new LevelTwoStand(game, recipe));
+        		this.dispose();
         	}
         }
         
@@ -468,7 +469,15 @@ public class LevelTwoRecipeScreen implements Screen{
 	 }
 	 public void dispose()
 	 {
-		 
+		for(Button b: buttons)
+			b.dispose();
+		submitButton.dispose();
+		textContainer.dispose();
+		faceSheet.dispose();
+		error.dispose();
+		scoreCloud.dispose();
+		f.dispose();
+		background.dispose();
 	 }
 	 public void resize(int x, int y)
 	 {
@@ -480,7 +489,7 @@ public class LevelTwoRecipeScreen implements Screen{
 	 }
 	 public void hide()
 	 {
-		
+		 //this.dispose();
 	 }
 	 public void show(){
 		 game.startFadeIn();

@@ -121,7 +121,9 @@ public class TitleScreen implements Screen{
         {
         	if(game.fadeOut(Gdx.graphics.getDeltaTime()))
         	{
+        		game.toFollow.resume();
         		game.setScreen(game.toFollow);
+        		this.dispose();
         	}
         }
         game.batch.end();
@@ -129,6 +131,7 @@ public class TitleScreen implements Screen{
         
         //FOR TESTING recipescreen.JAVA
         	//if(Gdx.input.isTouched())
+        		//game.setScreen(new LevelOne(game));
         	//game.setScreen(new LevelTwoRecipeScreen(game, new int[] {0, 0, 0, 1, 12, 0}));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("testScript.txt")));
             	//game.setScreen(new Cutscene(game, Gdx.files.internal("sceneOne.txt"), this));
@@ -150,7 +153,11 @@ public class TitleScreen implements Screen{
 	 }
 	 public void dispose()
 	 {
-		 
+		 background.dispose();
+		 newGameButton.dispose();
+		 continueButton.dispose();
+		 newGameButtonImg.dispose();
+		 continueButtonImg.dispose();
 	 }
 	 public void resize(int x, int y)
 	 {
@@ -162,7 +169,7 @@ public class TitleScreen implements Screen{
 	 }
 	 public void hide()
 	 {
-		
+		 //this.dispose();
 	 }
 	 public void show(){
 		 

@@ -158,5 +158,8 @@ public TextureRegion getFrame()
 	}
 }
 
-	
+	public void dispose()
+	{
+		outfit.dispose();
+	}
 }

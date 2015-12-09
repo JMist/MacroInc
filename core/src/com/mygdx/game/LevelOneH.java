@@ -38,11 +38,16 @@ public class LevelOneH implements Screen{
 	private long startTime;
 	private long currentTimeXOne;
 
-	
+	boolean spawning;
+	boolean isFadingOut;
 	
 	// Controlling the spawning of the pizza using variables of the total time
 	// of the game (scarcity) and the time since a pizza last spawned.
 	public LevelOneH(final MacroInc gam){
+		
+		//Boolean to control spawning and fading out
+		spawning = false;
+		isFadingOut = false;
 		game=gam;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 480);
@@ -61,7 +66,7 @@ public class LevelOneH implements Screen{
 		// Lanes should have height 120 each, so a total height of 360, and 120
 		// left for the top of the stage, so the car's hitbox occupies the
 		// entire lane.
-		startTime = TimeUtils.nanoTime();
+		
 		pizzaImage = new Texture(Gdx.files.internal("smiley.png"));
 		carImage = new Texture(Gdx.files.internal("pizzaCar.png"));
 		pizzaBackground = new Texture(Gdx.files.internal("pizzaBackground.png"));
@@ -79,10 +84,11 @@ public class LevelOneH implements Screen{
 		camera.update();
 
 		batch.begin();
-		if (TimeUtils.nanosToMillis(currentTimeXOne)>48000){
-			
-			if(!game.isFadeOut)
+		if (TimeUtils.nanosToMillis(currentTimeXOne)>18000 && !isFadingOut){
+			//if(Gdx.input.justTouched() && !isFadingOut){
 			game.startFadeOut();
+			isFadingOut = true;
+			spawning = false;
 		}
 
 		game.batch.draw(pizzaBackground, 0, 0);
@@ -98,6 +104,8 @@ public class LevelOneH implements Screen{
         {
         	if(game.fadeIn(Gdx.graphics.getDeltaTime()))
         	{
+        		//I had to move this so that Cutscene transitions properly... this needs to happen when it starts to spawn.
+        		startTime = TimeUtils.nanoTime();
         		spawnPizza();
         		}
         }
@@ -109,6 +117,7 @@ public class LevelOneH implements Screen{
     				//if(profit > 0)
     			game.save.writeString("1", false);
         		game.setScreen(new Cutscene(game, Gdx.files.internal("afterLevelOneH.txt"), new LevelSelectScreen(game)));
+        		this.dispose();
         	}
         }
 		batch.end();
@@ -125,7 +134,7 @@ public class LevelOneH implements Screen{
 			car.y = 81;
 		if (car.y > 281)
 			car.y = 281;
-		if (isReady()) {
+		if (spawning && isReady()) {
 			spawnPizza();
 		}
 		// The time command to spawn pizzas. This should be modified with
@@ -161,6 +170,8 @@ public class LevelOneH implements Screen{
 	}
 
 	private void spawnPizza() {
+		if(!spawning)
+			spawning = true;
 		Rectangle pizza = new Rectangle();
 		pizza.x = 940;
 		// Not sure if this is right, but I think 800 might bug something out.
@@ -193,9 +204,11 @@ public class LevelOneH implements Screen{
 		pizzaImage.dispose();
 		carImage.dispose();
 		pizzaCollect.dispose();
-		batch.dispose();
+		
+		pizzaBackground.dispose();
 	}
-
+	
+	
 
 	@Override
 	public void show() {
@@ -228,6 +241,6 @@ public class LevelOneH implements Screen{
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+		//this.dispose();
 	}
 }

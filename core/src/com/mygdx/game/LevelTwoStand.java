@@ -360,6 +360,7 @@ public class LevelTwoStand implements Screen{
         			game.save.writeString("2", false);
         			game.setScreen(new LevelTwoEndScreen(game, profit));       		
         		}
+        		this.dispose();
         	}
         }
         //BATCH ENDS
@@ -372,7 +373,10 @@ public class LevelTwoStand implements Screen{
         while(iter.hasNext())
         {	Peep person = iter.next();
         	if (Math.abs(person.x) > 1000 || Math.abs(person.y) > 480)
+        	{
+        		person.dispose();
         		iter.remove();
+        	}
         }
         if(peepsSpawned == 60 && !iter.hasNext())
         	done = true;
@@ -433,7 +437,11 @@ public class LevelTwoStand implements Screen{
 	 }
 	 public void dispose()
 	 {
-		 
+		 faceSheet.dispose();
+		 textContainer.dispose();
+		 playerStand.dispose();
+		 competitorStand.dispose();
+		 redPlayerStand.dispose();
 	 }
 	 public void resize(int x, int y)
 	 {
@@ -445,7 +453,7 @@ public class LevelTwoStand implements Screen{
 	 }
 	 public void hide()
 	 {
-		
+		 //this.dispose();
 	 }
 	 public void show(){
 		 game.startFadeIn();
